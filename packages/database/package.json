@@ -1,0 +1,10 @@
+{
+  "name": "@find-me/database",
+  "private": true,
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@find-me/decorators": "1.0.0",
+    "mongoose": "^6.5.0"
+  }
+}

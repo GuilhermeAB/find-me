@@ -1,0 +1,6 @@
+{
+  "name": "@find-me/decorators",
+  "private": true,
+  "version": "1.0.0",
+  "main": "src/index.ts"
+}

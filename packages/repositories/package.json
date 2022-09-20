@@ -1,0 +1,11 @@
+{
+  "name": "@find-me/repositories",
+  "private": true,
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@find-me/database": "workspace:^",
+    "@find-me/entities": "workspace:^",
+    "mongoose": "^6.6.1"
+  }
+}
