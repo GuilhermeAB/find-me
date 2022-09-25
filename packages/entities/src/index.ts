@@ -1,3 +1,3 @@
-export { AccountEntity, AccountEntityType } from './entities/account';
-export { AccountDetailsEntity, AccountDetailsEntityType } from './entities/account-details';
-export { PersonEntity, PersonEntityType } from './entities/person';
+export { AccountEntity, AccountEntityType } from './account';
+export { AccountDetailsEntity, AccountDetailsEntityType } from './account-details';
+export { PersonEntity, PersonEntityType } from './person';

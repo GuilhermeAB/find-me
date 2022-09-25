@@ -68,6 +68,11 @@ module.exports = {
           },
         ],
         '@typescript-eslint/explicit-function-return-type': 1,
+        'class-methods-use-this': ['error', {
+          exceptMethods: [
+            'toDomainProps',
+          ],
+        }],
       },
     },
   ],

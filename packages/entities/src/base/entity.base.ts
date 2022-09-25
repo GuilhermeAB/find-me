@@ -32,8 +32,6 @@ export abstract class Entity<EntityProps> {
     this.createdAt = new DateVO(createdAt || now);
     this.updatedAt = new DateVO(updatedAt || now);
     this.props = props;
-
-    this.validate();
   }
 
   public abstract validate(): void;

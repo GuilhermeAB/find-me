@@ -1,8 +1,12 @@
 import { database } from '@find-me/database';
+import { Entity } from '@find-me/entities/src/base/entity.base';
 import { ClientSession, Model } from 'mongoose';
+import { Mapper } from '../mapper/base/mapper.base';
 
-export abstract class Repository<EntityType> {
-  private session?: ClientSession;
+export abstract class Repository<EntityType, T extends Entity<unknown>> {
+  private readonly session?: ClientSession;
+
+  protected abstract mapper: Mapper<T, EntityType>;
 
   protected abstract EntityModel: Model<EntityType>;
 
@@ -10,16 +14,16 @@ export abstract class Repository<EntityType> {
     this.session = database.session;
   }
 
-  public async create(entity: EntityType): Promise<EntityType> {
-    const result = new this.EntityModel(entity);
+  public async create(entity: T): Promise<T> {
+    const result = new this.EntityModel(entity.getProps());
     await result.save({
       session: this.session,
     });
 
-    return result.toObject();
+    return this.mapper.toDomainEntity(result.toObject());
   }
 
-  public async findOneById(id: string): Promise<EntityType | undefined> {
+  public async findOneById(id: string): Promise<T | undefined> {
     const result = await this.EntityModel.findOne(
       {
         id,
@@ -30,7 +34,7 @@ export abstract class Repository<EntityType> {
       },
     ).exec();
 
-    return result ? result.toObject() : undefined;
+    return result ? this.mapper.toDomainEntity(result.toObject()) : undefined;
   }
 
   public async exists(id: string): Promise<boolean> {
