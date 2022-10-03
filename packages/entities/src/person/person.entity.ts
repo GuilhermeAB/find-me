@@ -7,8 +7,10 @@ export interface PersonProps {
   birthDate: DateVO
 }
 
+export type CreatePersonProps = PersonProps;
+
 export class PersonEntity extends Entity<PersonProps> {
-  public static create({ name, birthDate }: PersonProps): PersonEntity {
+  public static create({ name, birthDate }: CreatePersonProps): PersonEntity {
     const props: PersonProps = {
       name: name.trim(),
       birthDate,

@@ -6,6 +6,7 @@
   "dependencies": {
     "@find-me/entities": "workspace:^",
     "@find-me/errors": "workspace:^",
+    "@find-me/repositories": "workspace:^",
     "@find-me/uuid": "workspace:^"
   }
 }
