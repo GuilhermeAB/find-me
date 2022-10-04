@@ -7,7 +7,7 @@ export interface DateVOProps {
 
 function validateDate(value: Date): void {
   if (!(value instanceof Date) || Number.isNaN(value.getTime())) {
-    throw new ValidationError({ code: 'INVALID_DATE' });
+    throw new ValidationError({ key: 'INVALID_DATE' });
   }
 }
 
