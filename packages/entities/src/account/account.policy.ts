@@ -20,7 +20,7 @@ export class AccountPolicy extends Policy {
     const { length } = nickname;
     if (length < NICKNAME_MIN_LENGTH || length > NICKNAME_MAX_LENGTH) {
       throw new ValidationError({
-        key: 'NICKNAME_LENGTH',
+        key: 'NickNameLength',
         params: {
           min: NICKNAME_MIN_LENGTH,
           max: NICKNAME_MAX_LENGTH,
@@ -31,7 +31,7 @@ export class AccountPolicy extends Policy {
 
   private static validateNickname(nickname: string): void {
     if (!nickname.match(NICKNAME_REGEX)) {
-      throw new ValidationError({ key: 'INVALID_NICKNAME' });
+      throw new ValidationError({ key: 'InvalidNickname' });
     }
   }
 
@@ -39,7 +39,7 @@ export class AccountPolicy extends Policy {
     const { length } = password;
     if (length < PASSWORD_MIN_LENGTH || length > PASSWORD_MAX_LENGTH) {
       throw new ValidationError({
-        key: 'PASSWORD_LENGTH',
+        key: 'PasswordLength',
         params: {
           min: PASSWORD_MIN_LENGTH,
           max: PASSWORD_MAX_LENGTH,
@@ -48,14 +48,14 @@ export class AccountPolicy extends Policy {
     }
 
     if (!password.match(NUMBER_REGEX)) {
-      throw new ValidationError({ key: 'PASSWORD_NUMBER' });
+      throw new ValidationError({ key: 'PasswordNumber' });
     }
 
     if (!password.match(LOWERCASE_REGEX) || !password.match(UPPERCASE_REGEX)) {
-      throw new ValidationError({ key: 'PASSWORD_LOWERCASE_UPPERCASE' });
+      throw new ValidationError({ key: 'PasswordLowercaseUppercase' });
     }
     if (!password.match(SPECIAL_CHARACTER)) {
-      throw new ValidationError({ key: 'PASSWORD_SPECIAL_CHARACTER' });
+      throw new ValidationError({ key: 'PasswordSpecialCharacter' });
     }
   }
 

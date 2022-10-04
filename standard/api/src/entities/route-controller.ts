@@ -3,6 +3,7 @@ import {
   Request, RequestHandler, Response, Router,
 } from 'express';
 import { Status, ValidationError } from '@find-me/errors';
+import { I18nHandler } from '@find-me/i18n';
 
 export enum MethodType {
   Post = 'post',
@@ -35,13 +36,24 @@ interface RouteControllerProps {
   methodType: MethodType,
   method: (params: MethodParams) => Promise<MethodResponse>,
   validation?: (params: MethodParams) => void,
+  i18nHandler: I18nHandler,
+}
+
+interface CreateRouteControllerProps {
+  path: string,
+  methodType: MethodType,
+  method: (params: MethodParams) => Promise<MethodResponse>,
+  validation?: (params: MethodParams) => void,
 }
 
 export class RouteController {
   private props: RouteControllerProps;
 
-  constructor(props: RouteControllerProps) {
-    this.props = props;
+  constructor(props: CreateRouteControllerProps) {
+    this.props = {
+      ...props,
+      i18nHandler: new I18nHandler(),
+    };
   }
 
   private requestHandler(): RequestHandler {
@@ -66,7 +78,9 @@ export class RouteController {
           value,
         });
       } catch (error) {
-        const { status, code, message, params } = RouteController.requestErrorHandler(error as Error);
+        const {
+          status, code, message, params,
+        } = this.requestErrorHandler(error as Error);
 
         response.status(status).json({
           error: {
@@ -79,19 +93,21 @@ export class RouteController {
     };
   }
 
-  private static requestErrorHandler(error: Error): MethodErrorResponse {
+  private requestErrorHandler(error: Error): MethodErrorResponse {
     if (error instanceof ValidationError) {
+      const { code, message, params } = this.props.i18nHandler.getMessage(error.key, error.params);
+
       return {
         status: error.status || Status.BadRequest,
-        code: error.key,
-        message: error.key,
-        params: error.params,
+        code,
+        message,
+        params,
       };
     }
 
     return {
       status: Status.InternalServerError,
-      code: 'Internal server error',
+      code: 'InternalServerError',
       message: 'Internal server error',
     };
   }

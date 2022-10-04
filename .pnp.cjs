@@ -63,6 +63,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:standard/errors"
       },
       {
+        "name": "@find-me/i18n",
+        "reference": "workspace:standard/i18n"
+      },
+      {
         "name": "@find-me/uuid",
         "reference": "workspace:standard/uuid"
       }
@@ -78,6 +82,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@find-me/dev", ["workspace:packages/dev"]],
       ["@find-me/entities", ["workspace:packages/entities"]],
       ["@find-me/errors", ["workspace:standard/errors"]],
+      ["@find-me/i18n", ["workspace:standard/i18n"]],
       ["@find-me/repositories", ["workspace:packages/repositories"]],
       ["@find-me/services", ["workspace:packages/services"]],
       ["@find-me/uuid", ["workspace:standard/uuid"]],
@@ -2355,6 +2360,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@find-me/api", "workspace:standard/api"],
             ["@find-me/errors", "workspace:standard/errors"],
+            ["@find-me/i18n", "workspace:standard/i18n"],
             ["@types/compression", "npm:1.7.2"],
             ["@types/express", "npm:4.17.14"],
             ["@types/morgan", "npm:1.9.3"],
@@ -2373,6 +2379,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@find-me/auth", "workspace:backend/auth"],
             ["@find-me/api", "workspace:standard/api"],
             ["@find-me/errors", "workspace:standard/errors"],
+            ["@find-me/i18n", "workspace:standard/i18n"],
             ["@types/node", "npm:18.7.21"],
             ["ts-node", "virtual:76e136138dbaf0d13a46d87a9270de7d97d8ec09b9dae2a1554d62e502836d42f17febb4d8975952d21b4576a65e52c9184359641c39e71b4852894a4ac5814c#npm:10.9.1"],
             ["tsconfig-paths", "npm:4.1.0"],
@@ -2428,6 +2435,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@find-me/entities", "workspace:packages/entities"],
             ["@find-me/date", "workspace:standard/date"],
             ["@find-me/errors", "workspace:standard/errors"],
+            ["@find-me/i18n", "workspace:standard/i18n"],
             ["@find-me/uuid", "workspace:standard/uuid"],
             ["@types/bcrypt", "npm:5.0.0"],
             ["bcrypt", "npm:5.0.1"]
@@ -2440,6 +2448,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./standard/errors/",
           "packageDependencies": [
             ["@find-me/errors", "workspace:standard/errors"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@find-me/i18n", [
+        ["workspace:standard/i18n", {
+          "packageLocation": "./standard/i18n/",
+          "packageDependencies": [
+            ["@find-me/i18n", "workspace:standard/i18n"]
           ],
           "linkType": "SOFT",
         }]

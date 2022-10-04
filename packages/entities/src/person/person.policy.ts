@@ -15,7 +15,7 @@ export class PersonPolicy extends Policy {
   private static validateAge(birthDate: DateVO): void {
     if (!PersonPolicy.ageIsBetween(birthDate, MIN_AGE, MAX_AGE)) {
       throw new ValidationError({
-        key: 'BIRTH_DATE_MIN_MAX_AGE',
+        key: 'BirthDateMinMax',
         params: {
           min: MIN_AGE,
           max: MAX_AGE,
@@ -27,7 +27,7 @@ export class PersonPolicy extends Policy {
   private static validateNameLength(name: string): void {
     if (!PersonPolicy.lengthIsBetween(name, NAME_MIN_LENGTH, NAME_MAX_LENGTH)) {
       throw new ValidationError({
-        key: 'NAME_LENGTH',
+        key: 'NameLength',
         params: {
           min: NAME_MIN_LENGTH,
           max: NAME_MAX_LENGTH,
@@ -38,7 +38,7 @@ export class PersonPolicy extends Policy {
 
   private static validateName(name: string): void {
     if (!PersonPolicy.matchRegex(name, NAME_REGEX)) {
-      throw new ValidationError({ key: 'INVALID_NAME' });
+      throw new ValidationError({ key: 'InvalidName' });
     }
   }
 

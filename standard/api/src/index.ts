@@ -1,4 +1,4 @@
 export { ApiServer } from './entities/api-server';
 export {
-  RouteController, MethodType, MethodStatus, MethodResponse, MethodParams,
+  RouteController, MethodType, MethodResponse, MethodParams,
 } from './entities/route-controller';
