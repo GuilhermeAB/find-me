@@ -5,6 +5,7 @@ import express, {
 import compression from 'compression';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import { config } from 'dotenv';
 import { RouteController } from './route-controller';
 
 const DEFAULT_SERVER_PORT = 3000;
@@ -28,6 +29,8 @@ export class ApiServer {
   private props: ApiServerProps;
 
   constructor(create: CreateApiServerProps) {
+    config();
+
     this.props = {
       port: create.port || DEFAULT_SERVER_PORT,
       application: express(),
