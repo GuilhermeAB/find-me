@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DateVO } from '@find-me/date';
 import { CreateEntityProps, Entity } from '@find-me/entities/src/base/entity.base';
@@ -17,23 +18,38 @@ export abstract class Mapper<T extends Entity<unknown>, EntityType> {
 
   protected abstract toDomainProps(databaseEntity: EntityType): EntityProps<unknown>;
 
-  public toDomainEntity(entity: EntityType): T {
+  public toDomainEntity(entity: EntityType & { _id: string }): T {
     const {
-      id,
       props,
       createdAt,
       updatedAt,
     } = this.toDomainProps(entity);
 
     return new this.EntityConstructor({
-      id,
+      id: entity._id,
       props,
       createdAt,
       updatedAt,
     });
   }
 
-  public toDomainEntities(entities: EntityType[]): T[] {
+  public toDomainEntities(entities: Array<EntityType & { _id: string }>): T[] {
     return entities.map((entity) => this.toDomainEntity(entity));
+  }
+
+  public toDatabaseEntity(entity: T): Record<string, unknown> {
+    const result: Record<string, unknown> = {};
+
+    Object.entries(entity.getProps()).forEach(([key, value]) => {
+      if (value instanceof UUID) {
+        result._id = value.value;
+      } else if (value instanceof DateVO) {
+        result[key] = value.value;
+      } else {
+        result[key] = value;
+      }
+    });
+
+    return result;
   }
 }

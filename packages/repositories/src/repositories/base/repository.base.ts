@@ -15,7 +15,7 @@ export abstract class Repository<EntityType, T extends Entity<unknown>> {
   }
 
   public async create(entity: T): Promise<T> {
-    const result = new this.EntityModel(entity.getProps());
+    const result = new this.EntityModel(this.mapper.toDatabaseEntity(entity));
     await result.save({
       session: this.session,
     });
@@ -26,7 +26,7 @@ export abstract class Repository<EntityType, T extends Entity<unknown>> {
   public async findOneById(id: string): Promise<T | undefined> {
     const result = await this.EntityModel.findOne(
       {
-        id,
+        _id: id,
       },
       undefined,
       {
@@ -40,7 +40,7 @@ export abstract class Repository<EntityType, T extends Entity<unknown>> {
   public async exists(id: string): Promise<boolean> {
     const result = await this.EntityModel.findOne(
       {
-        id,
+        _id: id,
       },
       undefined,
       {

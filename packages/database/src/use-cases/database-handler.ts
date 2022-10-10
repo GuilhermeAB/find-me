@@ -1,3 +1,4 @@
+import { config } from 'dotenv';
 import { Database } from '../entities/database';
 
 interface DatabaseHandlerProps {
@@ -18,6 +19,8 @@ export class DatabaseHandler {
   }
 
   public static create(): DatabaseHandler {
+    config();
+
     const {
       DATABASE_URI,
     } = process.env;

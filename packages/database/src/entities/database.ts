@@ -26,7 +26,7 @@ export class Database {
   }
 
   public get session(): ClientSession | undefined {
-    return this.session;
+    return this.props.client;
   }
 
   private set session(session: ClientSession | undefined) {

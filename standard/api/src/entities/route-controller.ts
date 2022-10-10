@@ -4,6 +4,7 @@ import {
 } from 'express';
 import { Status, ValidationError } from '@find-me/errors';
 import { I18nHandler } from '@find-me/i18n';
+import { database } from '@find-me/database';
 
 export enum MethodType {
   Post = 'post',
@@ -73,11 +74,16 @@ export class RouteController {
 
         const { status, message, value } = await this.props.method(params);
 
+        await database.commitTransaction();
+
         response.status(status).json({
           message,
           value,
         });
       } catch (error) {
+        console.log(error);
+        await database.abortTransaction();
+
         const {
           status, code, message, params,
         } = this.requestErrorHandler(error as Error);

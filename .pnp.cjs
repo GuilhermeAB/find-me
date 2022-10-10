@@ -2359,6 +2359,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./standard/api/",
           "packageDependencies": [
             ["@find-me/api", "workspace:standard/api"],
+            ["@find-me/database", "workspace:packages/database"],
             ["@find-me/errors", "workspace:standard/errors"],
             ["@find-me/i18n", "workspace:standard/i18n"],
             ["@types/compression", "npm:1.7.2"],
@@ -2379,7 +2380,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@find-me/auth", "workspace:backend/auth"],
             ["@find-me/api", "workspace:standard/api"],
+            ["@find-me/date", "workspace:standard/date"],
             ["@find-me/errors", "workspace:standard/errors"],
+            ["@find-me/services", "workspace:packages/services"],
             ["@types/node", "npm:18.7.21"],
             ["ts-node", "virtual:76e136138dbaf0d13a46d87a9270de7d97d8ec09b9dae2a1554d62e502836d42f17febb4d8975952d21b4576a65e52c9184359641c39e71b4852894a4ac5814c#npm:10.9.1"],
             ["tsconfig-paths", "npm:4.1.0"],
@@ -2394,6 +2397,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@find-me/database", "workspace:packages/database"],
             ["@find-me/decorators", "workspace:standard/decorators"],
+            ["dotenv", "npm:16.0.3"],
             ["mongoose", "npm:6.6.1"]
           ],
           "linkType": "SOFT",
@@ -2479,6 +2483,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/services/",
           "packageDependencies": [
             ["@find-me/services", "workspace:packages/services"],
+            ["@find-me/database", "workspace:packages/database"],
             ["@find-me/entities", "workspace:packages/entities"],
             ["@find-me/errors", "workspace:standard/errors"],
             ["@find-me/repositories", "workspace:packages/repositories"],

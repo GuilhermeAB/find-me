@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "dependencies": {
     "@find-me/decorators": "1.0.0",
+    "dotenv": "^16.0.3",
     "mongoose": "^6.5.0"
   }
 }

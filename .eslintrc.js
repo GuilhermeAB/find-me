@@ -71,6 +71,7 @@ module.exports = {
         'class-methods-use-this': ['error', {
           exceptMethods: [
             'toDomainProps',
+            'toDatabaseEntity',
           ],
         }],
       },

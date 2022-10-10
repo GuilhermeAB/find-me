@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "dependencies": {
+    "@find-me/database": "workspace:^",
     "@find-me/entities": "workspace:^",
     "@find-me/errors": "workspace:^",
     "@find-me/repositories": "workspace:^",

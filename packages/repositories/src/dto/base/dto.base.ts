@@ -28,7 +28,6 @@ export abstract class DTO<EntityType> {
   constructor(create: CreateDTO) {
     const schema = new Schema(create.schema, {
       ...(create.schemaOptions || {}),
-      _id: false,
     });
 
     const entityModel = model<EntityType>(create.name, schema);

@@ -8,6 +8,7 @@ class PersonSchema extends DTO<PersonEntityType> {
     const person = new PersonSchema({
       name: SCHEMA_NAME,
       schema: {
+        _id: String,
         name: String,
         birthDate: Date,
       },
