@@ -1322,8 +1322,10 @@ __metadata:
   resolution: "@find-me/api@workspace:standard/api"
   dependencies:
     "@find-me/database": "workspace:^"
+    "@find-me/date": "workspace:^"
     "@find-me/errors": "workspace:^"
     "@find-me/i18n": "workspace:^"
+    "@find-me/uuid": "workspace:^"
     "@types/compression": ^1.7.2
     "@types/express": ^4.17.14
     "@types/morgan": ^1.9.3

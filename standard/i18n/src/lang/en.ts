@@ -17,5 +17,4 @@ export const en = {
   NameLength: 'Name must be at least {min} characters and not more than {max} characters',
   InvalidName: 'Invalid name',
   InvalidDate: 'Invalid date',
-  InvalidUUID: 'Invalid UUID',
 };

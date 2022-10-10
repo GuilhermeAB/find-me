@@ -28,6 +28,14 @@ export class DateVO {
     this.validate();
   }
 
+  public static generate(value: string | DateVO): DateVO {
+    if (value instanceof DateVO) {
+      return value;
+    }
+
+    return new DateVO(value);
+  }
+
   public static now(): DateVO {
     return new DateVO(Date.now());
   }

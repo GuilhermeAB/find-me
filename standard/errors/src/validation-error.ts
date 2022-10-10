@@ -10,7 +10,7 @@ export enum Status {
   InternalServerError = 500,
 }
 
-interface ValidationErrorProps {
+export interface ValidationErrorProps {
   key: string,
   params?: ParamsType,
   status?: Status,

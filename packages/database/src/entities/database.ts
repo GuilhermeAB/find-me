@@ -38,9 +38,11 @@ export class Database {
   }
 
   private async connectIntoDatabase(): Promise<void> {
-    const { connection } = await connect(this.uri, options);
+    if (!this.connection) {
+      const { connection } = await connect(this.uri, options);
 
-    this.connection = connection;
+      this.connection = connection;
+    }
   }
 
   public async startTransaction(): Promise<void> {
@@ -52,9 +54,19 @@ export class Database {
 
   public async commitTransaction(): Promise<void> {
     await this.session?.commitTransaction();
+    await this.session?.endSession();
+    await this.connection?.close();
+
+    this.connection = undefined;
+    this.session = undefined;
   }
 
   public async abortTransaction(): Promise<void> {
     await this.session?.abortTransaction();
+    await this.session?.endSession();
+    await this.connection?.close();
+
+    this.connection = undefined;
+    this.session = undefined;
   }
 }

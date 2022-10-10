@@ -30,13 +30,13 @@ export class UUID {
 
   private validate(): void {
     if (!validate(this.value)) {
-      throw new ValidationError({ key: 'InvalidUUID' });
+      throw new ValidationError({ key: 'InvalidId' });
     }
   }
 
   public static validate(value: string): void {
     if (!validate(value)) {
-      throw new ValidationError({ key: 'InvalidUUID' });
+      throw new ValidationError({ key: 'InvalidId' });
     }
   }
 }

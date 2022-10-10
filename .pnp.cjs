@@ -2360,8 +2360,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@find-me/api", "workspace:standard/api"],
             ["@find-me/database", "workspace:packages/database"],
+            ["@find-me/date", "workspace:standard/date"],
             ["@find-me/errors", "workspace:standard/errors"],
             ["@find-me/i18n", "workspace:standard/i18n"],
+            ["@find-me/uuid", "workspace:standard/uuid"],
             ["@types/compression", "npm:1.7.2"],
             ["@types/express", "npm:4.17.14"],
             ["@types/morgan", "npm:1.9.3"],
