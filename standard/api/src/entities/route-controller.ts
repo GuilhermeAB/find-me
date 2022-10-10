@@ -81,7 +81,6 @@ export class RouteController {
           value,
         });
       } catch (error) {
-        console.log(error);
         await database.abortTransaction();
 
         const {
