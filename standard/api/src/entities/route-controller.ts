@@ -22,7 +22,7 @@ export interface MethodParams {
 export interface MethodResponse {
   status: Status,
   message: string,
-  value?: Record<string, unknown>,
+  value?: unknown,
 }
 
 interface MethodErrorResponse {
