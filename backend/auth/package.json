@@ -1,0 +1,21 @@
+{
+  "name": "@find-me/auth",
+  "private": true,
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "yarn node -r tsconfig-paths/register -r ts-node/register ./src/index.ts"
+  },
+  "dependencies": {
+    "@find-me/api": "workspace:^",
+    "@find-me/date": "workspace:^",
+    "@find-me/errors": "workspace:^",
+    "@find-me/services": "workspace:^"
+  },
+  "devDependencies": {
+    "@types/node": "^18.6.3",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.0.0",
+    "typescript": "4.5.5"
+  }
+}

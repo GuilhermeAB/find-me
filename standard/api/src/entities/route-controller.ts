@@ -83,7 +83,7 @@ export class RouteController {
       } catch (error) {
         if (process.env.NODE_ENV !== 'production') {
           // eslint-disable-next-line no-console
-          console.log(error);
+          console.log((error as Error).message);
         }
 
         await database.abortTransaction();
