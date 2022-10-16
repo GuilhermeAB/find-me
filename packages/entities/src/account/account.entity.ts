@@ -27,11 +27,11 @@ export interface AccountProps {
   details: UUID | AccountDetailsEntity,
 }
 
-interface CreateAccountProps {
+export interface CreateAccountProps {
   nickname: string,
   email: string,
   password: string,
-  person: UUID,
+  person: UUID | PersonEntity,
 }
 
 export class AccountEntity extends Entity<AccountProps> {
@@ -51,8 +51,8 @@ export class AccountEntity extends Entity<AccountProps> {
     return account;
   }
 
-  public encryptPassword(): string {
-    return hashSync(this.props.password, genSaltSync(PASSWORD_SALT));
+  public encryptPassword(): void {
+    this.props.password = hashSync(this.props.password, genSaltSync(PASSWORD_SALT));
   }
 
   public static compareEncryptPassword(password: string, encryptedPassword: string): boolean {

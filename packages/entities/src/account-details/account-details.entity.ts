@@ -13,7 +13,7 @@ function generateRandomCode(length: number, value?: string): string {
 
 interface AccountDetailsActivationData {
   activationCode: string,
-  activationCodeCreatedAt: DateVO
+  activationCodeCreatedAt: DateVO,
   failedActivationAttempts?: number,
 }
 

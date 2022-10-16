@@ -46,10 +46,12 @@ export class Database {
   }
 
   public async startTransaction(): Promise<void> {
-    await this.connectIntoDatabase();
+    if (!this.session) {
+      await this.connectIntoDatabase();
 
-    this.session = await this.connection?.startSession();
-    this.session?.startTransaction();
+      this.session = await this.connection?.startSession();
+      this.session?.startTransaction();
+    }
   }
 
   public async commitTransaction(): Promise<void> {

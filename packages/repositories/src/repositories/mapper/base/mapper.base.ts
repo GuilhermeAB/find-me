@@ -7,8 +7,8 @@ import { UUID } from '@find-me/uuid';
 export interface EntityProps<T> {
   id: UUID | string,
   props: T,
-  createdAt: DateVO | Date,
-  updatedAt: DateVO | Date,
+  createdAt?: DateVO | Date,
+  updatedAt?: DateVO | Date,
 }
 
 export abstract class Mapper<T extends Entity<unknown>, EntityType> {
@@ -45,6 +45,8 @@ export abstract class Mapper<T extends Entity<unknown>, EntityType> {
         result._id = value.value;
       } else if (value instanceof DateVO) {
         result[key] = value.value;
+      } else if (value instanceof Entity) {
+        result[key] = (value as Entity<unknown>).getProps().id.value;
       } else {
         result[key] = value;
       }

@@ -1377,12 +1377,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@find-me/dev@workspace:packages/dev":
-  version: 0.0.0-use.local
-  resolution: "@find-me/dev@workspace:packages/dev"
-  languageName: unknown
-  linkType: soft
-
 "@find-me/entities@workspace:^, @find-me/entities@workspace:packages/entities":
   version: 0.0.0-use.local
   resolution: "@find-me/entities@workspace:packages/entities"

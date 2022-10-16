@@ -1,5 +1,5 @@
 import { database } from '@find-me/database';
-import { CreatePersonProps, PersonEntity } from '@find-me/entities/src/person/person.entity';
+import { CreatePersonProps, PersonEntity } from '@find-me/entities';
 import { PersonRepository } from '@find-me/repositories';
 
 export class PersonService {

@@ -12,15 +12,18 @@ class PersonSchema extends DTO<PersonEntityType> {
         name: String,
         birthDate: Date,
       },
+      options: {
+        timestamps: true,
+      },
     });
 
     return person;
   }
 }
 
-const { entityModel: PersonModel, name } = PersonSchema.create();
+const { entityModel: PersonModel, name: personSchemaName } = PersonSchema.create();
 
 export {
   PersonModel,
-  name,
+  personSchemaName,
 };

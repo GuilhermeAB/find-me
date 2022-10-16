@@ -3,8 +3,8 @@ import { DateVO } from '@find-me/date';
 
 export interface BaseEntityProps {
   id: UUID,
-  createdAt: DateVO,
-  updatedAt: DateVO,
+  createdAt?: DateVO,
+  updatedAt?: DateVO,
 }
 
 export interface CreateEntityProps<T> {
@@ -12,25 +12,28 @@ export interface CreateEntityProps<T> {
   props: T,
   createdAt?: DateVO | Date,
   updatedAt?: DateVO | Date,
+  timestamps?: boolean,
 }
 
 export abstract class Entity<EntityProps> {
   private readonly id: UUID;
 
-  private readonly createdAt: DateVO;
+  private readonly createdAt?: DateVO;
 
-  private updatedAt: DateVO;
+  private updatedAt?: DateVO;
 
   protected readonly props: EntityProps;
 
   constructor({
-    id, createdAt, updatedAt, props,
+    id, createdAt, updatedAt, props, timestamps = true,
   }: CreateEntityProps<EntityProps>) {
     const now = DateVO.now();
 
     this.id = UUID.generate(id);
-    this.createdAt = new DateVO(createdAt || now);
-    this.updatedAt = new DateVO(updatedAt || now);
+    if (!timestamps) {
+      this.createdAt = new DateVO(createdAt || now);
+      this.updatedAt = new DateVO(updatedAt || now);
+    }
     this.props = props;
   }
 

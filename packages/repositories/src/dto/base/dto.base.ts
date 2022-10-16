@@ -11,7 +11,7 @@ interface DTOProps<T> {
 interface CreateDTO {
   name: string,
   schema: SchemaDefinition,
-  schemaOptions?: SchemaOptions,
+  options?: SchemaOptions,
 }
 
 export abstract class DTO<EntityType> {
@@ -27,7 +27,7 @@ export abstract class DTO<EntityType> {
 
   constructor(create: CreateDTO) {
     const schema = new Schema(create.schema, {
-      ...(create.schemaOptions || {}),
+      ...(create.options || {}),
     });
 
     const entityModel = model<EntityType>(create.name, schema);

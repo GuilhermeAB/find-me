@@ -31,10 +31,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/database"
       },
       {
-        "name": "@find-me/dev",
-        "reference": "workspace:packages/dev"
-      },
-      {
         "name": "@find-me/entities",
         "reference": "workspace:packages/entities"
       },
@@ -79,7 +75,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@find-me/database", ["workspace:packages/database"]],
       ["@find-me/date", ["workspace:standard/date"]],
       ["@find-me/decorators", ["workspace:standard/decorators"]],
-      ["@find-me/dev", ["workspace:packages/dev"]],
       ["@find-me/entities", ["workspace:packages/entities"]],
       ["@find-me/errors", ["workspace:standard/errors"]],
       ["@find-me/i18n", ["workspace:standard/i18n"]],
@@ -2421,15 +2416,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./standard/decorators/",
           "packageDependencies": [
             ["@find-me/decorators", "workspace:standard/decorators"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@find-me/dev", [
-        ["workspace:packages/dev", {
-          "packageLocation": "./packages/dev/",
-          "packageDependencies": [
-            ["@find-me/dev", "workspace:packages/dev"]
           ],
           "linkType": "SOFT",
         }]
