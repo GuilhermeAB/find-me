@@ -1,16 +1,18 @@
-import { PersonEntity, PersonEntityType } from '@find-me/entities';
+import { DateVO } from '@find-me/date';
+import { PersonEntity } from '@find-me/entities';
 import { PersonProps } from '@find-me/entities/src/person/person.entity';
+import { DTOPersonType } from '../../dto/schemas/person';
 import { EntityProps, Mapper } from './base/mapper.base';
 
-export class PersonMapper extends Mapper<PersonEntity, PersonEntityType> {
-  protected toDomainProps(entity: PersonEntityType): EntityProps<PersonProps> {
+export class PersonMapper extends Mapper<PersonEntity, DTOPersonType> {
+  protected toDomainProps(entity: DTOPersonType): EntityProps<PersonProps> {
     return {
-      id: entity.id,
+      id: entity._id,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       props: {
         name: entity.name,
-        birthDate: entity.birthDate,
+        birthDate: new DateVO(entity.birthDate),
       },
     };
   }

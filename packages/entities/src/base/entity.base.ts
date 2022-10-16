@@ -30,7 +30,7 @@ export abstract class Entity<EntityProps> {
     const now = DateVO.now();
 
     this.id = UUID.generate(id);
-    if (!timestamps) {
+    if (timestamps) {
       this.createdAt = new DateVO(createdAt || now);
       this.updatedAt = new DateVO(updatedAt || now);
     }

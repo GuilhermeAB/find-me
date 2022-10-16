@@ -1,3 +1,4 @@
+import { ValidationError } from '@find-me/errors';
 import { config } from 'dotenv';
 import { Database } from '../entities/database';
 
@@ -26,7 +27,7 @@ export class DatabaseHandler {
     } = process.env;
 
     if (!DATABASE_URI) {
-      throw new Error('INVALID_ENV');
+      throw new ValidationError({ key: 'InvalidEnv' });
     }
 
     const database = new Database({ uri: DATABASE_URI });

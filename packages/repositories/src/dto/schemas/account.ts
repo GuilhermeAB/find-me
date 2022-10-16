@@ -1,11 +1,23 @@
-import { AccountEntityType } from '@find-me/entities';
 import { DTO } from '../base/dto.base';
-import { accountDetailsSchemaName } from './account-details';
-import { personSchemaName } from './person';
+import { accountDetailsSchemaName, DTOAccountDetailsType } from './account-details';
+import { DTOPersonType, personSchemaName } from './person';
 
 const SCHEMA_NAME = 'Account';
 
-class AccountSchema extends DTO<AccountEntityType> {
+export interface DTOAccountType {
+  _id: string,
+  nickname: string,
+  email: string,
+  password: string,
+  role: string,
+  status: string,
+  person: string | DTOPersonType,
+  details: string | DTOAccountDetailsType,
+  createdAt: Date,
+  updatedAt: Date,
+}
+
+class AccountSchema extends DTO<DTOAccountType> {
   public static create(): AccountSchema {
     const account = new AccountSchema({
       name: SCHEMA_NAME,

@@ -24,4 +24,8 @@ export const en = {
   BirthDateRequired: 'Birth is required',
   SignUpSuccess: 'Registration successful',
   EmailAlreadyInUse: 'Email already in use',
+  NicknameAlreadyInUse: 'Nickname already in use',
+  InvalidEmailOrPassword: 'Invalid email or password',
+  AccountIsDisabled: 'Account is disabled',
+  SignInManyFailedAttempts: 'Many failed sign in attempts. Try again in {value} minutes',
 };

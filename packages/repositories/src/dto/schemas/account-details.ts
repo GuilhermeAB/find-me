@@ -1,9 +1,26 @@
-import { AccountDetailsEntityType } from '@find-me/entities';
 import { DTO } from '../base/dto.base';
 
-const SCHEMA_NAME = 'AccountDetails';
+const SCHEMA_NAME = 'Account_Details';
 
-class AccountDetailsSchema extends DTO<AccountDetailsEntityType> {
+export interface DTOAccountDetailsType {
+  _id: string,
+
+  activationCode: string,
+  activationCodeCreatedAt: Date,
+  failedActivationAttempts: number,
+
+  recoverCode: string,
+  recoverCodeCreatedAt: Date,
+  failedRecoverAttempts: number,
+
+  lastSignInAt: Date,
+  failedSignInAttempts: number,
+  lastFailedSignInAttempt: Date,
+
+  emailUpdatedAt: Date,
+}
+
+class AccountDetailsSchema extends DTO<DTOAccountDetailsType> {
   public static create(): AccountDetailsSchema {
     const details = new AccountDetailsSchema({
       name: SCHEMA_NAME,

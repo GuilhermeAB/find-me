@@ -3,4 +3,6 @@ import { AccountProps } from './account.entity';
 
 export interface AccountEntityType extends AccountProps, BaseEntityProps {}
 
-export { AccountEntity, CreateAccountProps } from './account.entity';
+export {
+  AccountEntity, CreateAccountProps, AccountStatus, AccountRole,
+} from './account.entity';

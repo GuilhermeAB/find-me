@@ -3,10 +3,10 @@ import { Entity } from '@find-me/entities/src/base/entity.base';
 import { Model } from 'mongoose';
 import { Mapper } from '../mapper/base/mapper.base';
 
-export abstract class Repository<EntityType, T extends Entity<unknown>> {
-  protected abstract mapper: Mapper<T, EntityType>;
+export abstract class Repository<DTOEntityType, T extends Entity<unknown>> {
+  protected abstract mapper: Mapper<T, DTOEntityType>;
 
-  protected abstract EntityModel: Model<EntityType>;
+  protected abstract EntityModel: Model<DTOEntityType>;
 
   public async create(entity: T): Promise<T> {
     const result = new this.EntityModel(this.mapper.toDatabaseEntity(entity));

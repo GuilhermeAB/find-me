@@ -9,20 +9,22 @@ export interface EntityProps<T> {
   props: T,
   createdAt?: DateVO | Date,
   updatedAt?: DateVO | Date,
+  timestamps?: boolean,
 }
 
-export abstract class Mapper<T extends Entity<unknown>, EntityType> {
+export abstract class Mapper<T extends Entity<unknown>, DTOEntityType> {
   constructor(
     private EntityConstructor: new (props: CreateEntityProps<any>) => T,
   ) {}
 
-  protected abstract toDomainProps(databaseEntity: EntityType): EntityProps<unknown>;
+  protected abstract toDomainProps(databaseEntity: DTOEntityType): EntityProps<unknown>;
 
-  public toDomainEntity(entity: EntityType & { _id: string }): T {
+  public toDomainEntity(entity: DTOEntityType & { _id: string }): T {
     const {
       props,
       createdAt,
       updatedAt,
+      timestamps,
     } = this.toDomainProps(entity);
 
     return new this.EntityConstructor({
@@ -30,10 +32,11 @@ export abstract class Mapper<T extends Entity<unknown>, EntityType> {
       props,
       createdAt,
       updatedAt,
+      timestamps,
     });
   }
 
-  public toDomainEntities(entities: Array<EntityType & { _id: string }>): T[] {
+  public toDomainEntities(entities: Array<DTOEntityType & { _id: string }>): T[] {
     return entities.map((entity) => this.toDomainEntity(entity));
   }
 

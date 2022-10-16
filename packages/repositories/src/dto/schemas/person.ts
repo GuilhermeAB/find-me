@@ -1,9 +1,16 @@
-import { PersonEntityType } from '@find-me/entities';
 import { DTO } from '../base/dto.base';
 
 const SCHEMA_NAME = 'Person';
 
-class PersonSchema extends DTO<PersonEntityType> {
+export interface DTOPersonType {
+  _id: string,
+  name: string,
+  birthDate: Date,
+  createdAt: Date,
+  updatedAt: Date,
+}
+
+class PersonSchema extends DTO<DTOPersonType> {
   public static create(): PersonSchema {
     const person = new PersonSchema({
       name: SCHEMA_NAME,

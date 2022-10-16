@@ -6,12 +6,12 @@ import { AccountPolicy } from './account.policy';
 
 const PASSWORD_SALT = 10;
 
-enum AccountRole {
+export enum AccountRole {
   default = 'default',
   admin = 'admin',
 }
 
-enum AccountStatus {
+export enum AccountStatus {
   unverified = 'unverified',
   verified = 'verified',
   disabled = 'disabled',
@@ -55,8 +55,8 @@ export class AccountEntity extends Entity<AccountProps> {
     this.props.password = hashSync(this.props.password, genSaltSync(PASSWORD_SALT));
   }
 
-  public static compareEncryptPassword(password: string, encryptedPassword: string): boolean {
-    return compareSync(password, encryptedPassword);
+  public compareEncryptPassword(inputPassword: string): boolean {
+    return compareSync(inputPassword, this.props.password);
   }
 
   public validate(): void {

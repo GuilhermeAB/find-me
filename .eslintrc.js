@@ -74,6 +74,7 @@ module.exports = {
             'toDatabaseEntity',
           ],
         }],
+        'no-underscore-dangle': ['error', { allow: ['_id'] }],
       },
     },
   ],

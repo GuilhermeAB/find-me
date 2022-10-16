@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "dependencies": {
-    "@find-me/decorators": "1.0.0",
+    "@find-me/errors": "workspace:^",
     "dotenv": "^16.0.3",
     "mongoose": "^6.5.0"
   }
