@@ -111,7 +111,7 @@ export class AccountService {
     return {
       token,
       account: {
-        ...account!.getProps(),
+        ...account!.getFlatProps(),
         password: undefined,
         details: undefined,
       },

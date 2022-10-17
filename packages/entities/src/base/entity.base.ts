@@ -49,4 +49,29 @@ export abstract class Entity<EntityProps> {
 
     return Object.freeze(copyProps);
   }
+
+  public getFlatProps(): Record<string, unknown> {
+    const result: Record<string, unknown> = {
+      id: this.id.value,
+    };
+
+    if (this.createdAt && this.updatedAt) {
+      result.createdAt = this.createdAt.value;
+      result.updatedAt = this.updatedAt.value;
+    }
+
+    Object.entries((this.props)).forEach(([key, value]) => {
+      if (value instanceof UUID) {
+        result[key] = value.value;
+      } else if (value instanceof DateVO) {
+        result[key] = value.value;
+      } else if (value instanceof Entity) {
+        result[key] = (value as Entity<unknown>).getFlatProps();
+      } else {
+        result[key] = value;
+      }
+    });
+
+    return Object.freeze(result);
+  }
 }
