@@ -5,6 +5,7 @@ import {
 import { Status, ValidationError } from '@find-me/errors';
 import { I18nHandler } from '@find-me/i18n';
 import { database } from '@find-me/database';
+import { TokenBody, Authentication } from '@find-me/services';
 
 export enum MethodType {
   Post = 'post',
@@ -35,16 +36,19 @@ interface MethodErrorResponse {
 interface RouteControllerProps {
   path: string,
   methodType: MethodType,
-  method: (params: MethodParams) => Promise<MethodResponse>,
+  method: (params: MethodParams, authentication?: TokenBody) => Promise<MethodResponse>,
   validation?: (params: MethodParams) => void,
   i18nHandler: I18nHandler,
+  authentication?: TokenBody,
+  requireAuthentication?: boolean,
 }
 
 interface CreateRouteControllerProps {
   path: string,
   methodType: MethodType,
-  method: (params: MethodParams) => Promise<MethodResponse>,
+  method: (params: MethodParams, authentication?: TokenBody) => Promise<MethodResponse>,
   validation?: (params: MethodParams) => void,
+  requireAuthentication?: boolean,
 }
 
 export class RouteController {
@@ -55,6 +59,19 @@ export class RouteController {
       ...props,
       i18nHandler: new I18nHandler(),
     };
+  }
+
+  private async validateAuthentication(value?: string): Promise<void> {
+    if (!value) {
+      throw new ValidationError({ key: 'SignInRequired' });
+    }
+    const token = Authentication.parseToken(value);
+    const isValid = await Authentication.validateToken(token);
+    if (!isValid) {
+      throw new ValidationError({ key: 'SignInRequired' });
+    }
+
+    this.props.authentication = token;
   }
 
   private requestHandler(): RequestHandler {
@@ -72,7 +89,12 @@ export class RouteController {
           this.props.validation(params);
         }
 
-        const { status, message, value } = await this.props.method(params);
+        if (this.props.requireAuthentication) {
+          const token = request.headers.authorization;
+          await this.validateAuthentication(token);
+        }
+
+        const { status, message, value } = await this.props.method(params, this.props.authentication);
 
         await database.commitTransaction();
 

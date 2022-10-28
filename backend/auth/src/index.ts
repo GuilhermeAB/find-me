@@ -1,13 +1,18 @@
 import {
   ApiServer, RouteController,
 } from '@find-me/api';
-import { signInController, signUpController } from './controllers';
+import {
+  signInController,
+  signOutController,
+  signUpController,
+} from './controllers';
 
 export class AuthAPI {
   private static routes(): RouteController[] {
     return [
       signUpController.create(),
       signInController.create(),
+      signOutController.create(),
     ];
   }
 

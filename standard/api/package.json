@@ -8,6 +8,7 @@
     "@find-me/date": "workspace:^",
     "@find-me/errors": "workspace:^",
     "@find-me/i18n": "workspace:^",
+    "@find-me/services": "workspace:^",
     "@find-me/uuid": "workspace:^",
     "compression": "^1.7.4",
     "dotenv": "^16.0.3",

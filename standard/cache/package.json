@@ -1,0 +1,12 @@
+{
+  "name": "@find-me/cache",
+  "private": true,
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@find-me/date": "workspace:^",
+    "@find-me/errors": "workspace:^",
+    "@find-me/i18n": "workspace:^",
+    "redis": "^4.3.1"
+  }
+}

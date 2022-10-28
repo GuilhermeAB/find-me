@@ -28,4 +28,7 @@ export const en = {
   InvalidEmailOrPassword: 'Invalid email or password',
   AccountIsDisabled: 'Account is disabled',
   SignInManyFailedAttempts: 'Many failed sign in attempts. Try again in {value} minutes',
+  SignInRequired: 'You must be logged',
+  InvalidToken: 'Invalid token',
+  SignOutSuccess: 'Disconnected',
 };

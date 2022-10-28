@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "dependencies": {
+    "@find-me/cache": "workspace:^",
     "@find-me/database": "workspace:^",
     "@find-me/date": "workspace:^",
     "@find-me/entities": "workspace:^",

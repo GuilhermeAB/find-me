@@ -1,5 +1,5 @@
 import { ValidationError } from '@find-me/errors';
-import { differenceInMinutes, differenceInYears } from 'date-fns';
+import { differenceInMinutes, differenceInYears, addHours } from 'date-fns';
 
 export interface DateVOProps {
   value: Date
@@ -46,6 +46,12 @@ export class DateVO {
 
   public static validate(value: Date): void {
     validateDate(value);
+  }
+
+  public addHours(value: number): DateVO {
+    this.props.value = addHours(this.props.value, value);
+
+    return this;
   }
 
   public static differenceInYears(dateLeft: Date | number | DateVO, dateRight: Date | number | DateVO): number {
