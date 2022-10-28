@@ -8,6 +8,7 @@ import { AccountDetailsRepository, AccountRepository } from '@find-me/repositori
 import { Authentication } from './util/authentication';
 
 const MAX_FAILED_SIGN_IN_ATTEMPTS = 3;
+const MAX_FAILED_PASSWORD_CHANGE_ATTEMPTS = 2;
 
 export class AccountService {
   private repository: AccountRepository;
@@ -116,5 +117,55 @@ export class AccountService {
         details: undefined,
       },
     };
+  }
+
+  private async passwordChangeValidation(account: AccountEntity, currentPassword: string): Promise<void> {
+    const {
+      details,
+    } = account.getProps();
+
+    const {
+      id,
+      lastFailedPasswordChangeAttempt,
+      failedPasswordChangeAttempts,
+    } = (details as AccountDetailsEntity).getProps();
+
+    if (lastFailedPasswordChangeAttempt && failedPasswordChangeAttempts && failedPasswordChangeAttempts > MAX_FAILED_PASSWORD_CHANGE_ATTEMPTS) {
+      const lastFailedPasswordChangeAttemptTimeDifference = DateVO.differenceInMinutes(DateVO.now(), lastFailedPasswordChangeAttempt);
+      const passwordChangeDelay = failedPasswordChangeAttempts * 0.5;
+      if (lastFailedPasswordChangeAttemptTimeDifference <= passwordChangeDelay) {
+        const delay = passwordChangeDelay - lastFailedPasswordChangeAttemptTimeDifference || 1;
+        throw new ValidationError({ key: 'PasswordChangeManyFailedAttempts', params: { value: delay } });
+      }
+    }
+
+    if (!account.compareEncryptPassword(currentPassword)) {
+      await this.detailsRepository.increaseFailedPasswordChange(id.value);
+
+      throw new ValidationError({ key: 'InvalidPassword' });
+    }
+  }
+
+  public async passwordChange(accountId: string, newPassword: string, currentPassword: string): Promise<void> {
+    await database.startTransaction();
+    const account = await this.repository.findOneById(accountId);
+    await this.passwordChangeValidation(account!, currentPassword);
+
+    account!.password = newPassword;
+    account!.validate();
+    account!.encryptPassword();
+
+    if (account!.compareEncryptPassword(currentPassword)) {
+      throw new ValidationError({ key: 'PasswordChangeSamePasswords' });
+    }
+
+    const {
+      id,
+      password,
+      details,
+    } = account!.getProps();
+
+    await this.repository.passwordChange(id.value, password);
+    await this.detailsRepository.resetFailedPasswordChange((details as AccountDetailsEntity).getProps().id.value);
   }
 }

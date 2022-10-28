@@ -1,10 +1,10 @@
 - [x] Sign Up
 - [x] Sign In
-- [ ] Sign out
-- [ ] Change password
+- [x] Sign out
+- [x] Change password
 - [ ] Account activation
 - [ ] Account request a new activation code
 - [ ] Account request recover password
 - [ ] Account recover password
-- [ ] Authentication middleware
+- [x] Authentication middleware
 - [ ] Sign In - Manter conectado (cookie vs header)

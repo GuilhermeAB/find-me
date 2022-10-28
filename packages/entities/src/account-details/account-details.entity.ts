@@ -29,7 +29,16 @@ interface AccountDetailsSignInData {
   lastFailedSignInAttempt?: DateVO,
 }
 
-export interface AccountDetailsProps extends AccountDetailsActivationData, AccountDetailsRecoverData, AccountDetailsSignInData {
+interface AccountDetailsPasswordChange {
+  lastFailedPasswordChangeAttempt?: DateVO,
+  failedPasswordChangeAttempts?: number,
+}
+
+export interface AccountDetailsProps extends
+  AccountDetailsActivationData,
+  AccountDetailsRecoverData,
+  AccountDetailsSignInData,
+  AccountDetailsPasswordChange {
   emailUpdatedAt?: DateVO,
 }
 

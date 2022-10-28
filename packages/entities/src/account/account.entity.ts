@@ -51,6 +51,10 @@ export class AccountEntity extends Entity<AccountProps> {
     return account;
   }
 
+  public set password(newPassword: string) {
+    this.props.password = newPassword;
+  }
+
   public encryptPassword(): void {
     this.props.password = hashSync(this.props.password, genSaltSync(PASSWORD_SALT));
   }

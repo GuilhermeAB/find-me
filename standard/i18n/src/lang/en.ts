@@ -31,4 +31,8 @@ export const en = {
   SignInRequired: 'You must be logged',
   InvalidToken: 'Invalid token',
   SignOutSuccess: 'Disconnected',
+  PasswordChangeManyFailedAttempts: 'Many failed password change attempts. Try again in {value} minutes',
+  InvalidPassword: 'Invalid password',
+  PasswordChangeSamePasswords: 'The new password must be different from the current one',
+  PasswordChangeSuccess: 'Password changed successfully',
 };

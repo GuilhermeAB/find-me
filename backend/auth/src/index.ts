@@ -2,6 +2,7 @@ import {
   ApiServer, RouteController,
 } from '@find-me/api';
 import {
+  passwordChangeController,
   signInController,
   signOutController,
   signUpController,
@@ -13,6 +14,7 @@ export class AuthAPI {
       signUpController.create(),
       signInController.create(),
       signOutController.create(),
+      passwordChangeController.create(),
     ];
   }
 

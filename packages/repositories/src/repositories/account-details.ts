@@ -25,6 +25,39 @@ export class AccountDetailsRepository extends Repository<DTOAccountDetailsType, 
     ).exec();
   }
 
+  public async increaseFailedPasswordChange(id: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $inc: {
+          failedPasswordChangeAttempts: 1,
+        },
+        $set: {
+          lastFailedPasswordChangeAttempt: Date.now(),
+        },
+      },
+    ).exec();
+  }
+
+  public async resetFailedPasswordChange(id: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $unset: {
+          failedPasswordChangeAttempts: 0,
+          lastFailedPasswordChangeAttempt: null,
+        },
+      },
+      {
+        session: database.session,
+      },
+    ).exec();
+  }
+
   public async saveLastSignIn(id: string): Promise<void> {
     await this.EntityModel.updateOne(
       {

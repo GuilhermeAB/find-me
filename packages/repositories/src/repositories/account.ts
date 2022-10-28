@@ -9,6 +9,23 @@ export class AccountRepository extends Repository<DTOAccountType, AccountEntity>
 
   protected mapper = new AccountMapper(AccountEntity);
 
+  public async findOneById(id: string): Promise<AccountEntity | undefined> {
+    const result = await this.EntityModel.findOne(
+      {
+        _id: id,
+      },
+      undefined,
+      {
+        session: database.session,
+      },
+    )
+      .populate('details')
+      .populate('person')
+      .exec();
+
+    return result ? this.mapper.toDomainEntity(result.toObject()) : undefined;
+  }
+
   public async findByEmail(email: string): Promise<AccountEntity | undefined> {
     const result = await this.EntityModel.findOne(
       {
@@ -43,5 +60,18 @@ export class AccountRepository extends Repository<DTOAccountType, AccountEntity>
       .exec();
 
     return result ? this.mapper.toDomainEntity(result.toObject()) : undefined;
+  }
+
+  public async passwordChange(id: string, newPassword: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          password: newPassword,
+        },
+      },
+    ).exec();
   }
 }
