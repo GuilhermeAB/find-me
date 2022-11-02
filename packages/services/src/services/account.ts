@@ -12,6 +12,7 @@ const MAX_FAILED_PASSWORD_CHANGE_ATTEMPTS = 2;
 const MAX_FAILED_ACTIVATION_ATTEMPTS = 3;
 const ACTIVATION_CODE_EXPIRE_INTERVAL = 30;
 const ACTIVATION_CODE_REQUEST_DELAY_MINUTES = 4;
+const PASSWORD_RECOVER_REQUEST_DELAY_MINUTES = 5;
 
 export class AccountService {
   private repository: AccountRepository;
@@ -254,6 +255,51 @@ export class AccountService {
     } = (account.getProps().details as AccountDetailsEntity).getProps();
 
     await this.detailsRepository.changeActivationCode(id.value, activationCode!);
+    // TODO: Send email
+  }
+
+  private static passwordRequestRecoverCodeValidation(account: AccountEntity): void {
+    const {
+      status,
+      details,
+    } = account.getProps();
+
+    if (status === AccountStatus.disabled) {
+      throw new ValidationError({ key: 'AccountDisabled' });
+    }
+
+    const {
+      recoverCodeCreatedAt,
+    } = (details as AccountDetailsEntity).getProps();
+    if (recoverCodeCreatedAt) {
+      const delay = DateVO.differenceInMinutes(DateVO.now(), recoverCodeCreatedAt);
+
+      if (delay <= PASSWORD_RECOVER_REQUEST_DELAY_MINUTES) {
+        throw new ValidationError({ key: 'PasswordRecoverRequestManyAttempts', params: { value: (2 - PASSWORD_RECOVER_REQUEST_DELAY_MINUTES) || 1 } });
+      }
+    }
+  }
+
+  public async passwordRequestRecoverCode(email: string): Promise<void> {
+    await database.startTransaction();
+    const account = await this.repository.findByEmail(email);
+    if (!account) {
+      throw new ValidationError({ key: 'AccountNotFound' });
+    }
+
+    AccountService.passwordRequestRecoverCodeValidation(account);
+
+    const {
+      details,
+    } = account.getProps();
+    (details as AccountDetailsEntity).updateRecoverCode();
+
+    const {
+      id,
+      recoverCode,
+    } = (details as AccountDetailsEntity).getProps();
+
+    await this.detailsRepository.changePasswordRecoverCode(id.value, recoverCode!);
     // TODO: Send email
   }
 }

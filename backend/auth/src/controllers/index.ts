@@ -4,3 +4,4 @@ export { signOutController } from './account/sign-out.controller';
 export { passwordChangeController } from './account/password-change.controller';
 export { activateAccountController } from './account/activate.controller';
 export { activateRequestNewCode } from './account/activate-request-new-code.controller';
+export { passwordRequestRecover } from './account/password-request-recover.controller';

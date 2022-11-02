@@ -126,4 +126,22 @@ export class AccountDetailsRepository extends Repository<DTOAccountDetailsType, 
       },
     );
   }
+
+  public async changePasswordRecoverCode(id: string, code: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          recoverCode: code,
+          recoverCodeCreatedAt: new Date(),
+          failedRecoverAttempts: 0,
+        },
+      },
+      {
+        session: database.session,
+      },
+    );
+  }
 }

@@ -8,6 +8,7 @@ import {
   signInController,
   signOutController,
   signUpController,
+  passwordRequestRecover,
 } from './controllers';
 
 export class AuthAPI {
@@ -19,6 +20,7 @@ export class AuthAPI {
       passwordChangeController.create(),
       activateAccountController.create(),
       activateRequestNewCode.create(),
+      passwordRequestRecover.create(),
     ];
   }
 

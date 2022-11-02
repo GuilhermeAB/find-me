@@ -11,6 +11,7 @@ export const en = {
   InvalidNickname: 'Invalid nickname',
   NickNameLength: 'Nickname must be at least {min} characters and not more than {max} characters',
   EmailRequired: 'Email is required',
+  EmailInvalid: 'Email is invalid',
   PasswordRequired: 'Password is required',
   PasswordLength: 'Password must be at least {min} characters and not more than {max} characters',
   PasswordNumber: 'Password must have at least one number',
@@ -41,7 +42,9 @@ export const en = {
   ActivationCodeInvalid: 'Activation code is invalid',
   ActivationSuccess: 'Account activated',
   CantRequestNewActivationCode: 'Cant request new activation code. Your account is {value}',
-  ActivationCodeRequestManyAttempts: 'Many requests to request a new activation code. Try again in {value} minute(s)',
+  ActivationCodeRequestManyAttempts: 'Many attempts to request a new activation code. Try again in {value} minute(s)',
   AccountNotFound: 'Account not found',
   ActivationCodeSent: 'Activation code sent',
+  AccountDisabled: 'Account is disabled',
+  PasswordRecoverRequestManyAttempts: 'Many attempts to request password recover. Try again in {value} minute(s)',
 };
