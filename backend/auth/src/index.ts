@@ -2,6 +2,8 @@ import {
   ApiServer, RouteController,
 } from '@find-me/api';
 import {
+  activateAccountController,
+  activateRequestNewCode,
   passwordChangeController,
   signInController,
   signOutController,
@@ -15,6 +17,8 @@ export class AuthAPI {
       signInController.create(),
       signOutController.create(),
       passwordChangeController.create(),
+      activateAccountController.create(),
+      activateRequestNewCode.create(),
     ];
   }
 

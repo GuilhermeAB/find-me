@@ -10,7 +10,7 @@ export class AccountDetailsMapper extends Mapper<AccountDetailsEntity, DTOAccoun
       id: entity._id,
       props: {
         activationCode: entity.activationCode,
-        activationCodeCreatedAt: new DateVO(entity.activationCodeCreatedAt),
+        activationCodeCreatedAt: entity.activationCodeCreatedAt ? new DateVO(entity.activationCodeCreatedAt) : undefined,
         failedActivationAttempts: entity.failedActivationAttempts,
         recoverCode: entity.recoverCode,
         recoverCodeCreatedAt: entity.recoverCodeCreatedAt ? new DateVO(entity.recoverCodeCreatedAt) : undefined,

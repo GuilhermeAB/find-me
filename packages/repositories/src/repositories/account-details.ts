@@ -77,4 +77,53 @@ export class AccountDetailsRepository extends Repository<DTOAccountDetailsType, 
       },
     );
   }
+
+  public async increaseFailedActivationAttempts(id: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $inc: {
+          failedActivationAttempts: 1,
+        },
+      },
+    ).exec();
+  }
+
+  public async activate(id: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $unset: {
+          failedActivationAttempts: 0,
+          activationCode: null,
+          activationCodeCreatedAt: null,
+        },
+      },
+      {
+        session: database.session,
+      },
+    );
+  }
+
+  public async changeActivationCode(id: string, code: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          failedActivationAttempts: 0,
+          activationCode: code,
+          activationCodeCreatedAt: new Date(),
+        },
+      },
+      {
+        session: database.session,
+      },
+    );
+  }
 }

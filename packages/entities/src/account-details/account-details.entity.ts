@@ -1,7 +1,7 @@
 import { DateVO } from '@find-me/date';
 import { Entity } from '../base/entity.base';
 
-const RANDOM_CODE_LENGTH = 8;
+export const RANDOM_CODE_LENGTH = 8;
 
 function generateRandomCode(length: number, value?: string): string {
   if (value && value.length >= length) {
@@ -12,8 +12,8 @@ function generateRandomCode(length: number, value?: string): string {
 }
 
 interface AccountDetailsActivationData {
-  activationCode: string,
-  activationCodeCreatedAt: DateVO,
+  activationCode?: string,
+  activationCodeCreatedAt?: DateVO,
   failedActivationAttempts?: number,
 }
 

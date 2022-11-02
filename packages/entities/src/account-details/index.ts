@@ -3,4 +3,4 @@ import { AccountDetailsProps } from './account-details.entity';
 
 export interface AccountDetailsEntityType extends AccountDetailsProps, BaseEntityProps {}
 
-export { AccountDetailsEntity } from './account-details.entity';
+export { AccountDetailsEntity, RANDOM_CODE_LENGTH } from './account-details.entity';

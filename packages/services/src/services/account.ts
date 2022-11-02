@@ -9,6 +9,9 @@ import { Authentication } from './util/authentication';
 
 const MAX_FAILED_SIGN_IN_ATTEMPTS = 3;
 const MAX_FAILED_PASSWORD_CHANGE_ATTEMPTS = 2;
+const MAX_FAILED_ACTIVATION_ATTEMPTS = 3;
+const ACTIVATION_CODE_EXPIRE_INTERVAL = 30;
+const ACTIVATION_CODE_REQUEST_DELAY_MINUTES = 4;
 
 export class AccountService {
   private repository: AccountRepository;
@@ -167,5 +170,90 @@ export class AccountService {
 
     await this.repository.passwordChange(id.value, password);
     await this.detailsRepository.resetFailedPasswordChange((details as AccountDetailsEntity).getProps().id.value);
+  }
+
+  private async activationValidation(account: AccountEntity, code: string): Promise<void> {
+    const {
+      status,
+      details,
+    } = account.getProps();
+
+    if (status !== AccountStatus.unverified) {
+      throw new ValidationError({ key: 'CantActivateAccount', params: { value: status } });
+    }
+
+    const {
+      id,
+      activationCode,
+      activationCodeCreatedAt,
+      failedActivationAttempts,
+    } = (details as AccountDetailsEntity).getProps();
+
+    if (failedActivationAttempts && failedActivationAttempts >= MAX_FAILED_ACTIVATION_ATTEMPTS) {
+      throw new ValidationError({ key: 'ManyInvalidActivationAttempts' });
+    }
+
+    if (DateVO.differenceInMinutes(DateVO.now(), activationCodeCreatedAt!) >= ACTIVATION_CODE_EXPIRE_INTERVAL) {
+      throw new ValidationError({ key: 'ActivationCodeExpired' });
+    }
+
+    if (activationCode !== code) {
+      await this.detailsRepository.increaseFailedActivationAttempts(id.value);
+
+      throw new ValidationError({ key: 'ActivationCodeInvalid' });
+    }
+  }
+
+  public async activate(id: string, code: string): Promise<void> {
+    await database.startTransaction();
+    const account = await this.repository.findOneById(id);
+
+    await this.activationValidation(account!, code);
+
+    await this.repository.activate(id);
+
+    const {
+      details,
+    } = account!.getProps();
+
+    await this.detailsRepository.activate((details as AccountDetailsEntity).getProps().id.value);
+  }
+
+  private static activateRequestNewCodeValidation(account: AccountEntity): void {
+    const {
+      status,
+      details,
+    } = account.getProps();
+
+    if (status !== AccountStatus.unverified) {
+      throw new ValidationError({ key: 'CantRequestNewActivationCode', params: { value: status } });
+    }
+
+    const {
+      activationCodeCreatedAt,
+    } = (details as AccountDetailsEntity).getProps();
+    const delay = DateVO.differenceInMinutes(DateVO.now(), activationCodeCreatedAt!);
+    if (delay <= ACTIVATION_CODE_REQUEST_DELAY_MINUTES) {
+      throw new ValidationError({ key: 'ActivationCodeRequestManyAttempts', params: { value: (ACTIVATION_CODE_REQUEST_DELAY_MINUTES - delay) || 1 } });
+    }
+  }
+
+  public async activateRequestNewCode(accountId: string): Promise<void> {
+    await database.startTransaction();
+    const account = await this.repository.findOneById(accountId);
+    if (!account) {
+      throw new ValidationError({ key: 'AccountNotFound' });
+    }
+
+    AccountService.activateRequestNewCodeValidation(account);
+
+    (account.getProps().details as AccountDetailsEntity).updateActivationCode();
+    const {
+      id,
+      activationCode,
+    } = (account.getProps().details as AccountDetailsEntity).getProps();
+
+    await this.detailsRepository.changeActivationCode(id.value, activationCode!);
+    // TODO: Send email
   }
 }

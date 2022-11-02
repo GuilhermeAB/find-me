@@ -9,6 +9,7 @@ export {
 export {
   AccountDetailsEntity,
   AccountDetailsEntityType,
+  RANDOM_CODE_LENGTH,
 } from './account-details';
 
 export {

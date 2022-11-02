@@ -35,6 +35,17 @@ export class Guard {
     }
   }
 
+  public static stringLength(value: string, options: { min?: number, max?: number }, error: ValidationErrorProps): void {
+    const { length } = value;
+
+    if (options.min && length < options.min) {
+      throw new ValidationError(error);
+    }
+    if (options.max && length > options.max) {
+      throw new ValidationError(error);
+    }
+  }
+
   public static isNumber(value: unknown, error: ValidationErrorProps, isOptional?: boolean): void {
     if (isOptional && value == null) {
       return;

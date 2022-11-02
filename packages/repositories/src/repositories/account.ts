@@ -1,5 +1,5 @@
 import { database } from '@find-me/database';
-import { AccountEntity } from '@find-me/entities';
+import { AccountEntity, AccountStatus } from '@find-me/entities';
 import { AccountModel, DTOAccountType } from '../dto/schemas/account';
 import { Repository } from './base/repository.base';
 import { AccountMapper } from './mapper/account.mapper';
@@ -71,6 +71,22 @@ export class AccountRepository extends Repository<DTOAccountType, AccountEntity>
         $set: {
           password: newPassword,
         },
+      },
+    ).exec();
+  }
+
+  public async activate(id: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          status: AccountStatus.verified,
+        },
+      },
+      {
+        session: database.session,
       },
     ).exec();
   }
