@@ -144,4 +144,32 @@ export class AccountDetailsRepository extends Repository<DTOAccountDetailsType, 
       },
     );
   }
+
+  public async increaseFailedPasswordRecover(id: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $inc: {
+          failedRecoverAttempts: 1,
+        },
+      },
+    ).exec();
+  }
+
+  public async resetFailedPasswordRecover(id: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $unset: {
+          failedRecoverAttempts: 0,
+          recoverCode: null,
+          recoverCodeCreatedAt: null,
+        },
+      },
+    ).exec();
+  }
 }

@@ -1,12 +1,11 @@
 import {
-  Guard,
-  MethodParams, MethodResponse, MethodType, RouteController,
+  Guard, MethodParams, MethodResponse, MethodType, RouteController,
 } from '@find-me/api';
 import { Status } from '@find-me/errors';
-import { AccountService } from '@find-me/services';
+import { AccountService, RANDOM_CODE_LENGTH } from '@find-me/services';
 
-class PasswordRequestRecover {
-  private readonly path = '/password-recover-code';
+class PasswordRecover {
+  private readonly path = '/password-recover';
 
   private readonly methodType = MethodType.Post;
 
@@ -15,17 +14,22 @@ class PasswordRequestRecover {
   private static validation({ data }: MethodParams): void {
     Guard.isString(data.email, { key: 'EmailRequired' });
     Guard.stringLength(data.email, { min: 6, max: 50 }, { key: 'EmailInvalid' });
+    Guard.isString(data.code, { key: 'CodeRequired' });
+    Guard.stringLength(data.code, { min: RANDOM_CODE_LENGTH, max: RANDOM_CODE_LENGTH }, { key: 'PasswordRecoverCodeInvalid' });
+    Guard.isString(data.password, { key: 'PasswordRequired' });
   }
 
   private async method({ data }: MethodParams): Promise<MethodResponse> {
     const {
       email,
+      code,
+      password,
     } = data;
 
-    await this.service.passwordRequestRecoverCode(email);
+    await this.service.passwordRecover(email, code, password);
 
     return {
-      message: 'PasswordRecoverSent',
+      message: 'PasswordChangeSuccess',
       status: Status.Success,
     };
   }
@@ -34,14 +38,14 @@ class PasswordRequestRecover {
     return new RouteController({
       path: this.path,
       methodType: this.methodType,
-      validation: PasswordRequestRecover.validation.bind(this),
+      validation: PasswordRecover.validation.bind(this),
       method: this.method.bind(this),
     });
   }
 }
 
-const passwordRequestRecover = new PasswordRequestRecover();
+const passwordRecover = new PasswordRecover();
 
 export {
-  passwordRequestRecover,
+  passwordRecover,
 };

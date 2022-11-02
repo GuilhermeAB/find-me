@@ -47,4 +47,9 @@ export const en = {
   ActivationCodeSent: 'Activation code sent',
   AccountDisabled: 'Account is disabled',
   PasswordRecoverRequestManyAttempts: 'Many attempts to request password recover. Try again in {value} minute(s)',
+  PasswordRecoverMaxAttempts: 'Many failed attempts to recover password. Request a new recover code and try again',
+  PasswordRecoverCodeExpired: 'Password recover code expired. Request a new recover code and try again',
+  PasswordRecoverCodeInvalid: 'Password recover code invalid',
+  CodeRequired: 'Code is required',
+  AccountNotRequestedRecover: 'You must request a recovery code to proceed',
 };

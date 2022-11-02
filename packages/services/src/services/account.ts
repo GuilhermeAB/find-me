@@ -13,6 +13,7 @@ const MAX_FAILED_ACTIVATION_ATTEMPTS = 3;
 const ACTIVATION_CODE_EXPIRE_INTERVAL = 30;
 const ACTIVATION_CODE_REQUEST_DELAY_MINUTES = 4;
 const PASSWORD_RECOVER_REQUEST_DELAY_MINUTES = 5;
+const PASSWORD_RECOVER_CODE_EXPIRATION_MINUTES = 15;
 
 export class AccountService {
   private repository: AccountRepository;
@@ -275,7 +276,7 @@ export class AccountService {
       const delay = DateVO.differenceInMinutes(DateVO.now(), recoverCodeCreatedAt);
 
       if (delay <= PASSWORD_RECOVER_REQUEST_DELAY_MINUTES) {
-        throw new ValidationError({ key: 'PasswordRecoverRequestManyAttempts', params: { value: (2 - PASSWORD_RECOVER_REQUEST_DELAY_MINUTES) || 1 } });
+        throw new ValidationError({ key: 'PasswordRecoverRequestManyAttempts', params: { value: (PASSWORD_RECOVER_REQUEST_DELAY_MINUTES - delay) || 1 } });
       }
     }
   }
@@ -301,5 +302,64 @@ export class AccountService {
 
     await this.detailsRepository.changePasswordRecoverCode(id.value, recoverCode!);
     // TODO: Send email
+  }
+
+  private async passwordRecoverValidation(account: AccountEntity, code: string): Promise<void> {
+    const {
+      details,
+    } = account.getProps();
+
+    const {
+      id,
+      recoverCode,
+      recoverCodeCreatedAt,
+      failedRecoverAttempts,
+    } = (details as AccountDetailsEntity).getProps();
+
+    if (!recoverCodeCreatedAt || !recoverCode) {
+      throw new ValidationError({ key: 'AccountNotRequestedRecover' });
+    }
+
+    if (failedRecoverAttempts && failedRecoverAttempts > MAX_FAILED_PASSWORD_CHANGE_ATTEMPTS) {
+      throw new ValidationError({ key: 'PasswordRecoverMaxAttempts' });
+    }
+
+    if (DateVO.differenceInMinutes(DateVO.now(), recoverCodeCreatedAt) >= PASSWORD_RECOVER_CODE_EXPIRATION_MINUTES) {
+      throw new ValidationError({ key: 'PasswordRecoverCodeExpired' });
+    }
+
+    if (recoverCode !== code) {
+      await this.detailsRepository.increaseFailedPasswordRecover(id.value);
+
+      throw new ValidationError({ key: 'PasswordRecoverCodeInvalid' });
+    }
+  }
+
+  public async passwordRecover(email: string, code: string, newPassword: string): Promise<void> {
+    await database.startTransaction();
+    const account = await this.repository.findByEmail(email);
+
+    if (!account) {
+      throw new ValidationError({ key: 'AccountNotFound' });
+    }
+
+    await this.passwordRecoverValidation(account, code);
+
+    if (account.compareEncryptPassword(newPassword)) {
+      throw new ValidationError({ key: 'PasswordChangeSamePasswords' });
+    }
+
+    account.password = newPassword;
+    account.validate();
+    account.encryptPassword();
+
+    const {
+      id,
+      password,
+      details,
+    } = account.getProps();
+
+    await this.repository.passwordChange(id.value, password);
+    await this.detailsRepository.resetFailedPasswordRecover((details as AccountDetailsEntity).getProps().id.value);
   }
 }
