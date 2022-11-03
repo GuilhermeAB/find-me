@@ -54,4 +54,7 @@ export const en = {
   AccountNotRequestedRecover: 'You must request a recovery code to proceed',
   InvalidParams: 'Invalid parameters',
   PersonNotFound: 'Person not found',
+  EmailUpdateDelay: 'Cant update email. Try again in {value} day(s)',
+  NicknameUpdateDelay: 'Cant update nickname. Try again in {value} day(s)',
+  AccountNotVerified: 'Cant proceed. Your account is not verified',
 };

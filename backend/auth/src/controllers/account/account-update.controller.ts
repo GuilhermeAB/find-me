@@ -1,43 +1,42 @@
 import {
   Guard, MethodParams, MethodResponse, MethodType, RouteController,
 } from '@find-me/api';
-import { DateVO } from '@find-me/date';
 import { Status, ValidationError } from '@find-me/errors';
-import { PersonService, TokenBody } from '@find-me/services';
+import { AccountService, TokenBody } from '@find-me/services';
 
-class PersonUpdateController {
-  private readonly path = '/person-update';
+class AccountUpdateController {
+  private readonly path = '/account-update';
 
   private readonly methodType = MethodType.Patch;
 
-  private readonly service = new PersonService();
+  private readonly service = new AccountService();
 
   private static validation({ data }: MethodParams): void {
-    Guard.isString(data.name, { key: 'InvalidName' }, true);
-    Guard.isDate(data.birthDate, true);
+    Guard.isString(data.email, { key: 'EmailInvalid' }, true);
+    Guard.isString(data.nickname, { key: 'InvalidNickname' }, true);
 
-    if (!data.name && !data.birthDate) {
+    if (!data.email && !data.nickname) {
       throw new ValidationError({ key: 'InvalidParams' });
     }
   }
 
   private async method({ data }: MethodParams, authentication?: TokenBody): Promise<MethodResponse> {
     const {
-      name,
-      birthDate,
+      email,
+      nickname,
     } = data;
 
     const {
-      personId,
+      accountId,
     } = authentication!;
 
-    const person = await this.service.update(personId, name, DateVO.generate(birthDate));
+    const account = await this.service.update(accountId, nickname, email);
 
     return {
       message: 'Updated',
       status: Status.Success,
       value: {
-        person,
+        account,
       },
     };
   }
@@ -47,14 +46,14 @@ class PersonUpdateController {
       path: this.path,
       methodType: this.methodType,
       requireAuthentication: true,
-      validation: PersonUpdateController.validation.bind(this),
+      validation: AccountUpdateController.validation.bind(this),
       method: this.method.bind(this),
     });
   }
 }
 
-const personUpdate = new PersonUpdateController();
+const accountUpdate = new AccountUpdateController();
 
 export {
-  personUpdate,
+  accountUpdate,
 };

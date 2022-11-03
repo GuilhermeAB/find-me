@@ -1,5 +1,7 @@
 import { ValidationError } from '@find-me/errors';
-import { differenceInMinutes, differenceInYears, addHours } from 'date-fns';
+import {
+  differenceInMinutes, differenceInYears, addHours, differenceInDays,
+} from 'date-fns';
 
 export interface DateVOProps {
   value: Date
@@ -66,5 +68,12 @@ export class DateVO {
     const valueRight = dateRight instanceof DateVO ? dateRight.value : dateRight;
 
     return differenceInMinutes(valueLeft, valueRight);
+  }
+
+  public static differenceInDays(dateLeft: Date | number | DateVO, dateRight: Date | number | DateVO): number {
+    const valueLeft = dateLeft instanceof DateVO ? dateLeft.value : dateLeft;
+    const valueRight = dateRight instanceof DateVO ? dateRight.value : dateRight;
+
+    return differenceInDays(valueLeft, valueRight);
   }
 }

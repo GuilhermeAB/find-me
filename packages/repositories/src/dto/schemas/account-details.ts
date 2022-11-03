@@ -21,6 +21,7 @@ export interface DTOAccountDetailsType {
   failedPasswordChangeAttempts: number,
 
   emailUpdatedAt: Date,
+  nicknameUpdatedAt: Date,
 }
 
 class AccountDetailsSchema extends DTO<DTOAccountDetailsType> {
@@ -46,6 +47,7 @@ class AccountDetailsSchema extends DTO<DTOAccountDetailsType> {
         failedPasswordChangeAttempts: Number,
 
         emailUpdatedAt: Date,
+        nicknameUpdatedAt: Date,
       },
     });
 

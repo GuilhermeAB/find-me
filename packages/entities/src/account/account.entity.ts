@@ -66,4 +66,11 @@ export class AccountEntity extends Entity<AccountProps> {
   public validate(): void {
     AccountPolicy.validate(this.getProps());
   }
+
+  public update(nickname?: string, email?: string): void {
+    this.props.nickname = nickname || this.props.nickname;
+    this.props.email = email || this.props.email;
+
+    AccountPolicy.validateWithoutPassword(this.getProps());
+  }
 }

@@ -19,6 +19,7 @@ export class AccountDetailsMapper extends Mapper<AccountDetailsEntity, DTOAccoun
         failedSignInAttempts: entity.failedSignInAttempts,
         lastFailedSignInAttempt: entity.lastFailedSignInAttempt ? new DateVO(entity.lastFailedSignInAttempt) : undefined,
         emailUpdatedAt: entity.emailUpdatedAt ? new DateVO(entity.emailUpdatedAt) : undefined,
+        nicknameUpdatedAt: entity.nicknameUpdatedAt ? new DateVO(entity.nicknameUpdatedAt) : undefined,
         lastFailedPasswordChangeAttempt: entity.lastFailedPasswordChangeAttempt ? new DateVO(entity.lastFailedPasswordChangeAttempt) : undefined,
         failedPasswordChangeAttempts: entity.failedPasswordChangeAttempts,
       },

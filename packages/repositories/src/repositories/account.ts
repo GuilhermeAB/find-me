@@ -32,7 +32,24 @@ export class AccountRepository extends Repository<DTOAccountType, AccountEntity>
         email,
       },
       undefined,
+      {
+        session: database.session,
+      },
+    )
+      .populate('details')
+      .populate('person')
+      .exec();
 
+    return result ? this.mapper.toDomainEntity(result.toObject()) : undefined;
+  }
+
+  public async findByEmailAndIgnoreId(email: string, ignoreId: string): Promise<AccountEntity | undefined> {
+    const result = await this.EntityModel.findOne(
+      {
+        email,
+        _id: { $ne: ignoreId },
+      },
+      undefined,
       {
         session: database.session,
       },
@@ -51,6 +68,24 @@ export class AccountRepository extends Repository<DTOAccountType, AccountEntity>
       },
       undefined,
 
+      {
+        session: database.session,
+      },
+    )
+      .populate('details')
+      .populate('person')
+      .exec();
+
+    return result ? this.mapper.toDomainEntity(result.toObject()) : undefined;
+  }
+
+  public async findByNicknameAndIgnoreId(nickname: string, ignoreId: string): Promise<AccountEntity | undefined> {
+    const result = await this.EntityModel.findOne(
+      {
+        nickname,
+        _id: { $ne: ignoreId },
+      },
+      undefined,
       {
         session: database.session,
       },
@@ -89,5 +124,31 @@ export class AccountRepository extends Repository<DTOAccountType, AccountEntity>
         session: database.session,
       },
     ).exec();
+  }
+
+  public async update(account: AccountEntity): Promise<AccountEntity> {
+    const {
+      id,
+      nickname,
+      email,
+    } = account.getProps();
+
+    const result = await this.EntityModel.findOneAndUpdate(
+      {
+        _id: id.value,
+      },
+      {
+        $set: {
+          nickname,
+          email,
+        },
+      },
+      {
+        session: database.session,
+        new: true,
+      },
+    ).exec();
+
+    return this.mapper.toDomainEntity(result!.toObject());
   }
 }

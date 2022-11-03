@@ -10,4 +10,6 @@
 - [x] Authentication middleware
 - [x] Sign In - Manter conectado (cookie vs header)
 - [ ] Signed cookies (Validar se esta realizando o signed quando utilizado HTTPS)
-- [ ] Update account/person
+- [x] Update person
+- [x] Update account email/nickname
+- [ ] Nickname is useless

@@ -64,4 +64,9 @@ export class AccountPolicy extends Policy {
     AccountPolicy.validateNickname(props.nickname);
     AccountPolicy.validatePassword(props.password);
   }
+
+  public static validateWithoutPassword(props: AccountEntityType): void {
+    AccountPolicy.validateNicknameLength(props.nickname);
+    AccountPolicy.validateNickname(props.nickname);
+  }
 }

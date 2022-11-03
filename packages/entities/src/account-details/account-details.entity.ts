@@ -40,6 +40,7 @@ export interface AccountDetailsProps extends
   AccountDetailsSignInData,
   AccountDetailsPasswordChange {
   emailUpdatedAt?: DateVO,
+  nicknameUpdatedAt?: DateVO,
 }
 
 export class AccountDetailsEntity extends Entity<AccountDetailsProps> {

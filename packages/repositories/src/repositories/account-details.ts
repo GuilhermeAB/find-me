@@ -170,6 +170,41 @@ export class AccountDetailsRepository extends Repository<DTOAccountDetailsType, 
           recoverCodeCreatedAt: null,
         },
       },
+      {
+        session: database.session,
+      },
+    ).exec();
+  }
+
+  public async setUpdateEmail(id: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          emailUpdatedAt: new Date(),
+        },
+      },
+      {
+        session: database.session,
+      },
+    ).exec();
+  }
+
+  public async setUpdateNickname(id: string): Promise<void> {
+    await this.EntityModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          nicknameUpdatedAt: new Date(),
+        },
+      },
+      {
+        session: database.session,
+      },
     ).exec();
   }
 }

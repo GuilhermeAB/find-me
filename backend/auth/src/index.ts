@@ -11,6 +11,7 @@ import {
   passwordRequestRecover,
   passwordRecover,
   personUpdate,
+  accountUpdate,
 } from './controllers';
 
 export class AuthAPI {
@@ -25,6 +26,7 @@ export class AuthAPI {
       passwordRequestRecover.create(),
       passwordRecover.create(),
       personUpdate.create(),
+      accountUpdate.create(),
     ];
   }
 
