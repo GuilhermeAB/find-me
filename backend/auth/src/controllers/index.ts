@@ -6,3 +6,4 @@ export { activateAccountController } from './account/activate.controller';
 export { activateRequestNewCode } from './account/activate-request-new-code.controller';
 export { passwordRequestRecover } from './account/password-request-recover.controller';
 export { passwordRecover } from './account/password-recover.controller';
+export { personUpdate } from './account/person-update.controller';

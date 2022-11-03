@@ -26,4 +26,11 @@ export class PersonEntity extends Entity<PersonProps> {
   public validate(): void {
     PersonPolicy.validate(this.getProps());
   }
+
+  public update({ name, birthDate }: Partial<PersonProps>): void {
+    this.props.name = name || this.props.name;
+    this.props.birthDate = birthDate || this.props.birthDate;
+
+    this.validate();
+  }
 }

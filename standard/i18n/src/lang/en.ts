@@ -53,4 +53,5 @@ export const en = {
   CodeRequired: 'Code is required',
   AccountNotRequestedRecover: 'You must request a recovery code to proceed',
   InvalidParams: 'Invalid parameters',
+  PersonNotFound: 'Person not found',
 };

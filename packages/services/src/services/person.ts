@@ -1,6 +1,8 @@
 import { database } from '@find-me/database';
-import { CreatePersonProps, PersonEntity } from '@find-me/entities';
+import { DateVO } from '@find-me/date';
+import { CreatePersonProps, PersonEntity, PersonEntityType } from '@find-me/entities';
 import { PersonRepository } from '@find-me/repositories';
+import { ValidationError } from '@find-me/errors';
 
 export class PersonService {
   private repository: PersonRepository;
@@ -17,8 +19,18 @@ export class PersonService {
     return this.repository.create(entity);
   }
 
-  public async findOneById(id: string): Promise<PersonEntity | undefined> {
+  public async update(id: string, name?: string, birthDate?: DateVO): Promise<Partial<PersonEntityType>> {
     await database.startTransaction();
-    return this.repository.findOneById(id);
+    const person = await this.repository.findOneById(id);
+
+    if (!person) {
+      throw new ValidationError({ key: 'PersonNotFound' });
+    }
+
+    person.update({ name, birthDate });
+
+    const result = await this.repository.update(person);
+
+    return result.getFlatProps();
   }
 }
