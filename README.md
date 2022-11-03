@@ -8,5 +8,6 @@
 - [x] Account recover password
 - [ ] Send emails (sign up/request new activation code/recover password)
 - [x] Authentication middleware
-- [ ] Sign In - Manter conectado (cookie vs header)
+- [x] Sign In - Manter conectado (cookie vs header)
+- [ ] Signed cookies (Validar se esta realizando o signed quando utilizado HTTPS)
 - [ ] Update account/person

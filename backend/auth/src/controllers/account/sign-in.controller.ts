@@ -1,5 +1,5 @@
 import {
-  Guard, MethodParams, MethodResponse, MethodType, RouteController,
+  Guard, MethodParams, MethodResponse, MethodResponseCookies, MethodType, RouteController,
 } from '@find-me/api';
 import { Status } from '@find-me/errors';
 import { AccountService } from '@find-me/services';
@@ -14,20 +14,47 @@ class SignInController {
   private static validation({ data }: MethodParams): void {
     Guard.isString(data.email, { key: 'EmailRequired' });
     Guard.isString(data.password, { key: 'PasswordRequired' });
+    Guard.isBoolean(data.keepConnected, { key: 'InvalidParams' }, true);
   }
 
   private async method({ data }: MethodParams): Promise<MethodResponse> {
     const {
       email,
       password,
+      keepConnected,
     } = data;
 
-    const account = await this.service.signIn(email, password);
+    const { account, token } = await this.service.signIn(email, password);
+
+    const info: Record<string, unknown> = {
+      account,
+    };
+    let cookies: MethodResponseCookies;
+
+    if (!keepConnected) {
+      info.token = token;
+    } else {
+      const {
+        AUTHENTICATION_SECRET_TOKEN_TIMEOUT_SECONDS,
+      } = process.env;
+
+      cookies = {
+        authorization: {
+          value: token,
+          options: {
+            maxAge: parseInt(AUTHENTICATION_SECRET_TOKEN_TIMEOUT_SECONDS || '28800', 10) * 1000,
+            secure: true,
+            sameSite: true,
+          },
+        },
+      };
+    }
 
     return {
       message: 'SignInSuccess',
       status: Status.Success,
-      value: account,
+      value: info,
+      cookies,
     };
   }
 

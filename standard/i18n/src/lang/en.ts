@@ -52,4 +52,5 @@ export const en = {
   PasswordRecoverCodeInvalid: 'Password recover code invalid',
   CodeRequired: 'Code is required',
   AccountNotRequestedRecover: 'You must request a recovery code to proceed',
+  InvalidParams: 'Invalid parameters',
 };

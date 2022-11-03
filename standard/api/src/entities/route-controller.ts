@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import {
+  CookieOptions,
   Request, RequestHandler, Response, Router,
 } from 'express';
 import { Status, ValidationError } from '@find-me/errors';
@@ -20,10 +21,17 @@ export interface MethodParams {
   data: Record<string, string>,
 }
 
+export type MethodResponseCookies = Record<string, {
+  options?: CookieOptions,
+  value: string,
+}> | undefined;
+
 export interface MethodResponse {
   status: Status,
   message: string,
   value?: unknown,
+  cookies?: MethodResponseCookies,
+  clearCookies?: string[],
 }
 
 interface MethodErrorResponse {
@@ -90,13 +98,34 @@ export class RouteController {
         }
 
         if (this.props.requireAuthentication) {
-          const token = request.headers.authorization;
+          let token: string | undefined = request.headers.authorization;
+          if (!token) {
+            if (process.env.NODE_ENV !== 'production') {
+              token = (request.cookies as undefined | Record<string, string>)?.authorization;
+            } else {
+              token = (request.signedCookies as undefined | Record<string, string>)?.authorization;
+            }
+          }
           await this.validateAuthentication(token);
         }
 
-        const { status, message, value } = await this.props.method(params, this.props.authentication);
+        const {
+          status, message, value, cookies, clearCookies,
+        } = await this.props.method(params, this.props.authentication);
 
         await database.commitTransaction();
+
+        if (cookies) {
+          Object.entries(cookies).forEach(([key, cookie]) => {
+            response.cookie(key, cookie.value, cookie.options || {});
+          });
+        }
+
+        if (clearCookies) {
+          clearCookies.forEach((key) => {
+            response.clearCookie(key);
+          });
+        }
 
         response.status(status).json({
           message,

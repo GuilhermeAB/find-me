@@ -16,6 +16,7 @@ class SignOutController {
     return {
       message: 'SignOutSuccess',
       status: Status.Success,
+      clearCookies: ['authorization'],
     };
   }
 

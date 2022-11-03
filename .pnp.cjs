@@ -2366,9 +2366,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@find-me/services", "workspace:packages/services"],
             ["@find-me/uuid", "workspace:standard/uuid"],
             ["@types/compression", "npm:1.7.2"],
+            ["@types/cookie-parser", "npm:1.4.3"],
             ["@types/express", "npm:4.17.14"],
             ["@types/morgan", "npm:1.9.3"],
             ["compression", "npm:1.7.4"],
+            ["cookie-parser", "npm:1.4.6"],
             ["dotenv", "npm:16.0.3"],
             ["express", "npm:5.0.0-beta.1"],
             ["helmet", "npm:6.0.0"],
@@ -2890,6 +2892,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@types/connect", "npm:3.4.35"],
             ["@types/node", "npm:18.7.21"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/cookie-parser", [
+        ["npm:1.4.3", {
+          "packageLocation": "./.yarn/cache/@types-cookie-parser-npm-1.4.3-4bda65954a-f390f3af1b.zip/node_modules/@types/cookie-parser/",
+          "packageDependencies": [
+            ["@types/cookie-parser", "npm:1.4.3"],
+            ["@types/express", "npm:4.17.14"]
           ],
           "linkType": "HARD",
         }]
@@ -3958,6 +3970,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/cookie-npm-0.4.1-cc5e2ebb42-bd7c47f5d9.zip/node_modules/cookie/",
           "packageDependencies": [
             ["cookie", "npm:0.4.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["cookie-parser", [
+        ["npm:1.4.6", {
+          "packageLocation": "./.yarn/cache/cookie-parser-npm-1.4.6-a68f84d02a-1e5a63aa82.zip/node_modules/cookie-parser/",
+          "packageDependencies": [
+            ["cookie-parser", "npm:1.4.6"],
+            ["cookie", "npm:0.4.1"],
+            ["cookie-signature", "npm:1.0.6"]
           ],
           "linkType": "HARD",
         }]

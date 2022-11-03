@@ -6,6 +6,7 @@ import compression from 'compression';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { config } from 'dotenv';
+import cookieParser from 'cookie-parser';
 import { RouteController } from './route-controller';
 
 const DEFAULT_SERVER_PORT = 3000;
@@ -49,9 +50,14 @@ export class ApiServer {
   }
 
   private globalMiddlewares(): void {
+    const {
+      AUTHENTICATION_COOKIE_SECRET,
+    } = process.env;
+
     this.props.application.use(compression());
     this.props.application.use(helmet());
     this.props.application.use(json());
+    this.props.application.use(cookieParser(AUTHENTICATION_COOKIE_SECRET));
 
     this.requestLogger();
   }
