@@ -12,7 +12,11 @@ class SignInController {
   private readonly service = new AccountService();
 
   private static validation({ data }: MethodParams): void {
-    Guard.isString(data.email, { key: 'EmailRequired' });
+    if (!data.nickname) {
+      Guard.isString(data.email, { key: 'EmailRequired' });
+    } else {
+      Guard.isString(data.nickname, { key: 'NicknameRequired' });
+    }
     Guard.isString(data.password, { key: 'PasswordRequired' });
     Guard.isBoolean(data.keepConnected, { key: 'InvalidParams' }, true);
   }
@@ -20,11 +24,12 @@ class SignInController {
   private async method({ data }: MethodParams): Promise<MethodResponse> {
     const {
       email,
+      nickname,
       password,
       keepConnected,
     } = data;
 
-    const { account, token } = await this.service.signIn(email, password);
+    const { account, token } = await this.service.signIn(password, email, nickname);
 
     const info: Record<string, unknown> = {
       account,

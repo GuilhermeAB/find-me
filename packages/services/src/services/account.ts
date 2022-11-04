@@ -105,9 +105,9 @@ export class AccountService {
     }
   }
 
-  public async signIn(email: string, password: string): Promise<{ account: Partial<AccountEntityType>, token: string }> {
+  public async signIn(password: string, email?: string, nickname?: string): Promise<{ account: Partial<AccountEntityType>, token: string }> {
     await database.startTransaction();
-    const account = await this.repository.findByEmail(email);
+    const account = email ? await this.repository.findByEmail(email) : await this.repository.findByNickname(nickname!);
     await this.repository.findOneById(account!.getProps().id.value);
 
     await this.signInValidation(password, account);

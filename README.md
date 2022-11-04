@@ -12,4 +12,5 @@
 - [ ] Signed cookies (Validar se esta realizando o signed quando utilizado HTTPS)
 - [x] Update person
 - [x] Update account email/nickname
-- [ ] Nickname is useless
+- [x] Sign In with nickname
+- [ ] Account image
