@@ -6,6 +6,7 @@ import {
 import { ValidationError } from '@find-me/errors';
 import { AccountDetailsRepository, AccountRepository } from '@find-me/repositories';
 import { Authentication } from './util/authentication';
+import { AccountMailer } from './util/mailer/account.mailer';
 
 const MAX_FAILED_SIGN_IN_ATTEMPTS = 3;
 const MAX_FAILED_PASSWORD_CHANGE_ATTEMPTS = 2;
@@ -63,10 +64,16 @@ export class AccountService {
     await database.startTransaction();
     await this.createNewAccountValidation(entity);
 
-    // TODO: Send verification email
+    const {
+      details,
+      email,
+      nickname,
+    } = entity.getProps();
 
-    await this.detailsRepository.create(entity.getProps().details as AccountDetailsEntity);
+    await this.detailsRepository.create(details as AccountDetailsEntity);
     await this.repository.create(entity);
+
+    await AccountMailer.sendVerificationEmail(email, nickname, (details as AccountDetailsEntity).getProps().activationCode!);
   }
 
   private async signInValidation(password: string, account?: AccountEntity): Promise<void> {
@@ -256,13 +263,21 @@ export class AccountService {
     AccountService.activateRequestNewCodeValidation(account);
 
     (account.getProps().details as AccountDetailsEntity).updateActivationCode();
+
+    const {
+      details,
+      email,
+      nickname,
+    } = account.getProps();
+
     const {
       id,
       activationCode,
-    } = (account.getProps().details as AccountDetailsEntity).getProps();
+    } = (details as AccountDetailsEntity).getProps();
 
     await this.detailsRepository.changeActivationCode(id.value, activationCode!);
-    // TODO: Send email
+
+    await AccountMailer.sendVerificationEmail(email, nickname, (details as AccountDetailsEntity).getProps().activationCode!);
   }
 
   private static passwordRequestRecoverCodeValidation(account: AccountEntity): void {
@@ -298,6 +313,7 @@ export class AccountService {
 
     const {
       details,
+      nickname,
     } = account.getProps();
     (details as AccountDetailsEntity).updateRecoverCode();
 
@@ -307,7 +323,8 @@ export class AccountService {
     } = (details as AccountDetailsEntity).getProps();
 
     await this.detailsRepository.changePasswordRecoverCode(id.value, recoverCode!);
-    // TODO: Send email
+
+    await AccountMailer.sendPasswordRecoverEmail(email, nickname, recoverCode!);
   }
 
   private async passwordRecoverValidation(account: AccountEntity, code: string): Promise<void> {

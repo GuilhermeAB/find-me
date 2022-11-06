@@ -6,10 +6,6 @@
   "dependencies": {
     "@find-me/date": "workspace:^",
     "@find-me/errors": "workspace:^",
-    "@find-me/uuid": "workspace:^",
-    "bcrypt": "^5.0.1"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.0"
+    "@find-me/uuid": "workspace:^"
   }
 }

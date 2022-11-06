@@ -7,19 +7,18 @@
     "outDir": "./dist",
     "rootDir": "./",
 
+    "noEmit": true,
+
     "strict": true,
 
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "baseUrl": ".",
-    // "paths": {
-    //   "src/*": ["src/*"]
-    // },
     "esModuleInterop": true,
     "useUnknownInCatchVariables": false,
 
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    // "experimentalDecorators": true,
+    // "emitDecoratorMetadata": true,
 
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -27,14 +26,16 @@
     // "typeRoots": [
     //   "@types"
     // ]
-  }
-  // "include": [
-  //   "src/**/*"
-  // ],
-  // "exclude": [
-  //   "node_modules",
-  //   "node_modules/**/*",
-  //   "**/*.spec.ts",
-  //   "**/__tests__/**"
-  // ]
+
+    "paths": {
+      "@find-me/*": [
+        "./packages/*",
+        "./backend/*",
+        "./frontend/*",
+        "./standard/*"
+      ]
+    }
+  },
+  "exclude": ["node_modules", "**/*/dist", "**/*.test.ts"],
+  "include": ["**/*.ts"]
 }

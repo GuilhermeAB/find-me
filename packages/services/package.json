@@ -9,13 +9,12 @@
     "@find-me/date": "workspace:^",
     "@find-me/entities": "workspace:^",
     "@find-me/errors": "workspace:^",
+    "@find-me/mailer": "workspace:^",
     "@find-me/repositories": "workspace:^",
     "@find-me/uuid": "workspace:^",
-    "bcrypt": "^5.1.0",
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5",
     "@types/jsonwebtoken": "^8.5.9"
   }
 }

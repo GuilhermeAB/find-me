@@ -1,0 +1,10 @@
+{
+  "name": "@find-me/mailer",
+  "private": true,
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.202.0",
+    "@find-me/errors": "workspace:^"
+  }
+}

@@ -1,10 +1,10 @@
 import { UUID } from '@find-me/uuid';
-import { compareSync, genSaltSync, hashSync } from 'bcrypt';
+import { randomBytes, scryptSync } from 'crypto';
 import { AccountDetailsEntity, PersonEntity } from '..';
 import { Entity } from '../base/entity.base';
 import { AccountPolicy } from './account.policy';
 
-const PASSWORD_SALT = 10;
+const PASSWORD_SALT = 32;
 
 export enum AccountRole {
   default = 'default',
@@ -56,11 +56,17 @@ export class AccountEntity extends Entity<AccountProps> {
   }
 
   public encryptPassword(): void {
-    this.props.password = hashSync(this.props.password, genSaltSync(PASSWORD_SALT));
+    const salt = randomBytes(PASSWORD_SALT).toString('hex');
+    const passwordEncrypted = scryptSync(this.props.password, salt, 32).toString('hex');
+
+    this.props.password = `${passwordEncrypted}.${salt}`;
   }
 
   public compareEncryptPassword(inputPassword: string): boolean {
-    return compareSync(inputPassword, this.props.password);
+    const [password, salt] = this.props.password.split('.');
+    const inputPasswordEncrypted = scryptSync(inputPassword, salt, 32).toString('hex');
+
+    return inputPasswordEncrypted === password;
   }
 
   public validate(): void {

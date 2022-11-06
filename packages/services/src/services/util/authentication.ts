@@ -1,7 +1,7 @@
 import { AccountEntity, AccountRole, AccountStatus } from '@find-me/entities';
 import { ValidationError } from '@find-me/errors';
 import { UUID } from '@find-me/uuid';
-import { genSaltSync, hashSync } from 'bcrypt';
+import { scryptSync, randomBytes } from 'crypto';
 import { DateVO } from '@find-me/date';
 import { sign, verify } from 'jsonwebtoken';
 import { CacheService } from '@find-me/cache';
@@ -19,9 +19,10 @@ export interface TokenBody {
 export class Authentication {
   private static generateTokenId(accountId: string, hashToken: string): string {
     const prefix = accountId.substring(1, 4);
-    const token = hashSync(`${prefix}${hashToken}`, genSaltSync(10));
+    const salt = randomBytes(32).toString('hex');
+    const token = scryptSync(`${prefix}${hashToken}`, salt, 32).toString('hex');
 
-    return token;
+    return `${token}.${salt}`;
   }
 
   public static generateToken(account: AccountEntity): string {
@@ -79,6 +80,7 @@ export class Authentication {
         throw new ValidationError({ key: 'InvalidToken' });
       }
 
+      // TODO: Verify tokenId
       return payload as TokenBody;
     } catch (e) {
       throw new ValidationError({ key: 'InvalidToken' });
