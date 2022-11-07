@@ -2,14 +2,14 @@ import {
   Guard, MethodParams, MethodResponse, MethodType, RouteController,
 } from '@find-me/api';
 import { Status } from '@find-me/errors';
-import { AccountService, TokenBody } from '@find-me/services';
+import { AccountPasswordChangeService, TokenBody } from '@find-me/services';
 
 class PasswordChangeController {
   private readonly path = '/password-change';
 
   private readonly methodType = MethodType.Post;
 
-  private readonly service = new AccountService();
+  private readonly service = new AccountPasswordChangeService();
 
   private static validation({ data }: MethodParams): void {
     Guard.isString(data.password, { key: 'PasswordRequired' });

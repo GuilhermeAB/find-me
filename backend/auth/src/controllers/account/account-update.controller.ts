@@ -2,14 +2,14 @@ import {
   Guard, MethodParams, MethodResponse, MethodType, RouteController,
 } from '@find-me/api';
 import { Status, ValidationError } from '@find-me/errors';
-import { AccountService, TokenBody } from '@find-me/services';
+import { AccountUpdateService, TokenBody } from '@find-me/services';
 
 class AccountUpdateController {
   private readonly path = '/account-update';
 
   private readonly methodType = MethodType.Patch;
 
-  private readonly service = new AccountService();
+  private readonly service = new AccountUpdateService();
 
   private static validation({ data }: MethodParams): void {
     Guard.isString(data.email, { key: 'EmailInvalid' }, true);

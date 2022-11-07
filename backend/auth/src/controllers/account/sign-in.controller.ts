@@ -2,14 +2,14 @@ import {
   Guard, MethodParams, MethodResponse, MethodResponseCookies, MethodType, RouteController,
 } from '@find-me/api';
 import { Status } from '@find-me/errors';
-import { AccountService } from '@find-me/services';
+import { AccountSignInService } from '@find-me/services';
 
 class SignInController {
   private readonly path = '/sign-in';
 
   private readonly methodType = MethodType.Post;
 
-  private readonly service = new AccountService();
+  private readonly service = new AccountSignInService();
 
   private static validation({ data }: MethodParams): void {
     if (!data.nickname) {

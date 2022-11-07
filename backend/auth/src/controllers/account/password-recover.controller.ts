@@ -2,14 +2,14 @@ import {
   Guard, MethodParams, MethodResponse, MethodType, RouteController,
 } from '@find-me/api';
 import { Status } from '@find-me/errors';
-import { AccountService, RANDOM_CODE_LENGTH } from '@find-me/services';
+import { AccountPasswordRecoverService, RANDOM_CODE_LENGTH } from '@find-me/services';
 
 class PasswordRecover {
   private readonly path = '/password-recover';
 
   private readonly methodType = MethodType.Post;
 
-  private readonly service = new AccountService();
+  private readonly service = new AccountPasswordRecoverService();
 
   private static validation({ data }: MethodParams): void {
     Guard.isString(data.email, { key: 'EmailRequired' });

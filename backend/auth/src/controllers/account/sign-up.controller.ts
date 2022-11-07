@@ -3,16 +3,16 @@ import {
 } from '@find-me/api';
 import { DateVO } from '@find-me/date';
 import { Status } from '@find-me/errors';
-import { AccountService, PersonService } from '@find-me/services';
+import { AccountCreateService, PersonCreateService } from '@find-me/services';
 
 class SignUpController {
   private readonly path = '/sign-up';
 
   private readonly methodType = MethodType.Post;
 
-  private readonly accountService = new AccountService();
+  private readonly accountService = new AccountCreateService();
 
-  private readonly personService = new PersonService();
+  private readonly personService = new PersonCreateService();
 
   private static validation({ data }: MethodParams): void {
     Guard.isString(data.nickname, { key: 'NickNameRequired' });

@@ -20,7 +20,7 @@ export class Authentication {
   private static generateTokenId(accountId: string, hashToken: string): string {
     const prefix = accountId.substring(1, 4);
     const salt = randomBytes(32).toString('hex');
-    const token = scryptSync(`${prefix}${hashToken}`, salt, 32).toString('hex');
+    const token = scryptSync(`${prefix}${hashToken}`, salt, 128).toString('hex');
 
     return `${token}.${salt}`;
   }

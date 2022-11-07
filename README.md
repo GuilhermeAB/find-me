@@ -14,5 +14,5 @@
 - [x] Update account email/nickname
 - [x] Sign In with nickname
 - [ ] Account image
-- [ ] Fix sign in getProps error
+- [x] Fix sign in getProps error
 - [ ] Improve password encryption

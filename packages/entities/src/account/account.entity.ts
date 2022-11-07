@@ -57,14 +57,14 @@ export class AccountEntity extends Entity<AccountProps> {
 
   public encryptPassword(): void {
     const salt = randomBytes(PASSWORD_SALT).toString('hex');
-    const passwordEncrypted = scryptSync(this.props.password, salt, 32).toString('hex');
+    const passwordEncrypted = scryptSync(this.props.password, salt, 128).toString('hex');
 
     this.props.password = `${passwordEncrypted}.${salt}`;
   }
 
   public compareEncryptPassword(inputPassword: string): boolean {
     const [password, salt] = this.props.password.split('.');
-    const inputPasswordEncrypted = scryptSync(inputPassword, salt, 32).toString('hex');
+    const inputPasswordEncrypted = scryptSync(inputPassword, salt, 128).toString('hex');
 
     return inputPasswordEncrypted === password;
   }

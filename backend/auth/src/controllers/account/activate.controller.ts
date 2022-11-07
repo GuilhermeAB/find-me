@@ -2,14 +2,14 @@ import {
   Guard, MethodParams, MethodResponse, MethodType, RouteController,
 } from '@find-me/api';
 import { Status } from '@find-me/errors';
-import { AccountService, RANDOM_CODE_LENGTH, TokenBody } from '@find-me/services';
+import { AccountActivationService, RANDOM_CODE_LENGTH, TokenBody } from '@find-me/services';
 
 class ActivateController {
   private readonly path = '/account-activate';
 
   private readonly methodType = MethodType.Post;
 
-  private readonly service = new AccountService();
+  private readonly service = new AccountActivationService();
 
   private static validation({ data }: MethodParams): void {
     Guard.isString(data.code, { key: 'CodeRequired' });

@@ -3,14 +3,14 @@ import {
 } from '@find-me/api';
 import { DateVO } from '@find-me/date';
 import { Status, ValidationError } from '@find-me/errors';
-import { PersonService, TokenBody } from '@find-me/services';
+import { PersonUpdateService, TokenBody } from '@find-me/services';
 
 class PersonUpdateController {
   private readonly path = '/person-update';
 
   private readonly methodType = MethodType.Patch;
 
-  private readonly service = new PersonService();
+  private readonly service = new PersonUpdateService();
 
   private static validation({ data }: MethodParams): void {
     Guard.isString(data.name, { key: 'InvalidName' }, true);
